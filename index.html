@@ -91,6 +91,16 @@
       font-style: italic;
       color: var(--accent);
     }
+    .hero-alias {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 400;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+      margin-top: 0.5rem;
+      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+    }
     .hero-bio {
       font-size: 1.1rem;
       font-weight: 300;
@@ -98,6 +108,7 @@
       max-width: 520px;
       line-height: 1.75;
       margin-bottom: 2.5rem;
+      margin-top: 1.5rem;
       opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
     }
     .hero-actions {
@@ -206,58 +217,44 @@
       font-weight: 400;
     }
 
-    /* ── PROJECTS ── */
-    #projects .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .project-card {
+    /* ── PROJECTS (Under Development) ── */
+    #projects .dev-banner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5rem 2rem;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2rem;
-      transition: border-color 0.2s, transform 0.2s;
-      position: relative; overflow: hidden;
+      gap: 1.25rem;
     }
-    .project-card:hover { border-color: var(--ink); transform: translateY(-3px); }
-    .project-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--accent);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.3s;
+    .dev-icon {
+      font-size: 2.5rem;
+      opacity: 0.35;
     }
-    .project-card:hover::before { transform: scaleY(1); }
-    .project-tag {
-      font-size: 0.68rem; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 1rem;
-    }
-    .project-name {
+    .dev-title {
       font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem;
-      margin-bottom: 0.75rem;
+      font-size: 1.8rem;
+      color: var(--ink);
     }
-    .project-desc {
+    .dev-sub {
       font-size: 0.9rem;
-      color: var(--ink-muted);
       font-weight: 300;
-      line-height: 1.65;
+      color: var(--ink-muted);
+      max-width: 380px;
+      line-height: 1.7;
     }
-    .coming-soon-badge {
+    .dev-badge {
       display: inline-block;
-      margin-top: 1.25rem;
       font-size: 0.7rem;
       font-weight: 500;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--ink-muted);
-      border: 1px dashed var(--border);
-      padding: 0.25rem 0.6rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.3rem 0.8rem;
       border-radius: 2px;
     }
 
@@ -318,7 +315,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* Scroll reveal */
     .reveal {
       opacity: 0; transform: translateY(24px);
       transition: opacity 0.65s ease, transform 0.65s ease;
@@ -352,7 +348,8 @@
   <div id="hero">
     <div class="hero-content">
       <span class="hero-tag">Portfolio</span>
-      <h1>Sheikh Zayed,<br><em>aka Rex.</em></h1>
+      <h1>Sheikh Zayed</h1>
+      <span class="hero-alias">( aka Rex )</span>
       <p class="hero-bio">
         Electrical & Electronics Engineering student at North South University, Dhaka. Curious about how things work — from circuits to code. Building, learning, and figuring it out one project at a time.
       </p>
@@ -379,7 +376,7 @@
           I grew up in Jashore, Bangladesh, where I developed a curiosity for how things work — mechanical, electrical, and everything in between. These days I'm channeling that into my studies in circuits, programming, and beyond.
         </p>
         <p>
-          Outside academics, I'm into military history & hardware, football.
+          Outside academics, I'm into aviation, mechanics, and football.
         </p>
       </div>
       <div class="about-facts reveal">
@@ -389,15 +386,15 @@
         </div>
         <div class="fact">
           <div class="fact-label">Learning</div>
-          <div class="fact-value">Circuits · C Programming · Python · Linear Algebra · Calculus</div>
+          <div class="fact-value">Circuits · C Programming · Python · Calculus</div>
         </div>
         <div class="fact">
           <div class="fact-label">Interests</div>
-          <div class="fact-value">Military Hardware · Football · Cats</div>
+          <div class="fact-value">Aviation · Mechanics · Football</div>
         </div>
         <div class="fact">
-          <div class="fact-label">Based in</div>
-          <div class="fact-value">Dhaka, Bangladesh</div>
+          <div class="fact-label">From</div>
+          <div class="fact-value">Bangladesh</div>
         </div>
       </div>
     </div>
@@ -409,25 +406,11 @@
   <section id="projects">
     <p class="section-label reveal">Work</p>
     <h2 class="section-title reveal">Projects.</h2>
-    <div class="projects-grid">
-      <div class="project-card reveal">
-        <div class="project-tag">Web Development</div>
-        <div class="project-name">E-Commerce UI Clone</div>
-        <p class="project-desc">A fully featured fashion e-commerce website built with vanilla HTML, CSS, and JavaScript — replicating a modern ASOS-style storefront from scratch.</p>
-        <span class="coming-soon-badge">View soon</span>
-      </div>
-      <div class="project-card reveal" style="transition-delay: 0.1s">
-        <div class="project-tag">Coming Soon</div>
-        <div class="project-name">Next Project</div>
-        <p class="project-desc">Currently in the works. Stay tuned — something interesting is on the way.</p>
-        <span class="coming-soon-badge">In progress</span>
-      </div>
-      <div class="project-card reveal" style="transition-delay: 0.2s">
-        <div class="project-tag">Coming Soon</div>
-        <div class="project-name">And Another One</div>
-        <p class="project-desc">Projects are being built, experiments are being run. Check back soon.</p>
-        <span class="coming-soon-badge">In progress</span>
-      </div>
+    <div class="dev-banner reveal">
+      <div class="dev-icon">⚙️</div>
+      <div class="dev-title">Currently in Development</div>
+      <p class="dev-sub">Projects are being built and experiments are being run. Check back soon — something interesting is on the way.</p>
+      <span class="dev-badge">Coming Soon</span>
     </div>
   </section>
 
@@ -440,7 +423,7 @@
       <h2 class="contact-heading reveal">Let's connect<br>and <em>build something.</em></h2>
       <div class="social-links reveal">
         <!-- GitHub -->
-        <a href="https://github.com/relatively-rex252" target="_blank" class="social-link">
+        <a href="https://github.com/relatively-Rex252" target="_blank" class="social-link">
           <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub
         </a>
@@ -455,7 +438,7 @@
           Instagram
         </a>
         <!-- Email -->
-        <a href="mailto:sheikhshakil3510m@gmail.com" class="social-link">
+        <a href="https://mail.google.com/mail/?view=cm&to=sheikhshakil3510m@gmail.com" target="_blank" class="social-link">
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
           Email
         </a>
@@ -467,11 +450,10 @@
   <hr class="divider"/>
   <footer>
     <span class="footer-name">Sheikh Zayed</span>
-    <span class="footer-copy">© 2025 · Built with care</span>
+    <span class="footer-copy">© Built with care and passion. 2026</span>
   </footer>
 
   <script>
-    // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.12 });
