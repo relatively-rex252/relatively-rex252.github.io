@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aviation — Rex</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f7f5f2;--bg2:#efecea;--ink:#1a1814;--ink-muted:#6b6760;--accent:#c8502a;--border:#e2dfd9;--card:#fff;--shadow:rgba(0,0,0,0.06)}
+    [data-theme="dark"]{--bg:#0f0e0c;--bg2:#1a1916;--ink:#e8e4de;--ink-muted:#8a8580;--accent:#e8673f;--border:#2a2826;--card:#1a1916;--shadow:rgba(0,0,0,0.3)}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:rgba(247,245,242,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background .3s}
+    [data-theme="dark"] nav{background:rgba(15,14,12,.88)}
+    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--ink);text-decoration:none}
+    .nav-links{display:flex;gap:1.75rem;list-style:none;align-items:center}
+    .nav-links a{font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:var(--accent)}
+    .theme-btn{background:var(--card);border:1px solid var(--border);color:var(--ink);padding:.4rem .9rem;border-radius:20px;font-size:.78rem;font-weight:500;cursor:pointer;letter-spacing:.05em;transition:all .2s;font-family:'DM Sans',sans-serif}
+    .theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .page-hero{padding:10rem 3rem 5rem;max-width:1100px;margin:0 auto}
+    .back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;margin-bottom:2rem;transition:color .2s;opacity:0;animation:fadeUp .5s .05s forwards}
+    .back-link:hover{color:var(--accent)}
+    .page-label{font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem;opacity:0;animation:fadeUp .6s .1s forwards}
+    .page-title{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .7s .25s forwards}
+    .page-sub{font-size:1.05rem;font-weight:300;color:var(--ink-muted);max-width:540px;line-height:1.8;opacity:0;animation:fadeUp .7s .4s forwards}
+    hr.divider{border:none;border-top:1px solid var(--border);max-width:1100px;margin:0 auto}
+    .content{max-width:1100px;margin:0 auto;padding:5rem 3rem}
+    .section-label{font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+    .section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:2rem}
+
+    /* Aircraft card */
+    .aircraft-card{background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:3rem;transition:border-color .2s}
+    .aircraft-card:hover{border-color:var(--accent)}
+    .aircraft-photo{width:100%;height:280px;object-fit:cover;object-position:center;display:block;background:var(--bg2)}
+    .aircraft-photo-fallback{width:100%;height:280px;background:linear-gradient(135deg,var(--bg2),var(--border));display:flex;align-items:center;justify-content:center;font-size:5rem;opacity:.4}
+    .aircraft-body{padding:2.25rem}
+    .aircraft-era{font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+    .aircraft-name{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:.3rem}
+    .aircraft-full{font-size:.8rem;font-weight:300;color:var(--ink-muted);letter-spacing:.04em;margin-bottom:1.25rem}
+    .aircraft-desc{font-size:.92rem;font-weight:300;color:var(--ink-muted);line-height:1.82;margin-bottom:1.5rem}
+    .aircraft-specs{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.5rem}
+    .spec-badge{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);background:var(--bg2);border:1px solid var(--border);padding:.22rem .65rem;border-radius:2px}
+    .aircraft-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+    .a-stat-val{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--accent)}
+    .a-stat-label{font-size:.66rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-top:.15rem}
+    .photo-credit{font-size:.68rem;color:var(--ink-muted);font-weight:300;margin-top:1rem;font-style:italic}
+
+    /* General cards */
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.4rem;margin-bottom:4rem}
+    .info-card{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:1.75rem;transition:all .2s}
+    .info-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow)}
+    .info-icon{font-size:2rem;margin-bottom:.75rem}
+    .info-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:.5rem}
+    .info-desc{font-size:.88rem;font-weight:300;color:var(--ink-muted);line-height:1.7}
+
+    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto}
+    .footer-name{font-family:'DM Serif Display',serif;font-size:.95rem}
+    .footer-copy{font-size:.76rem;color:var(--ink-muted)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.visible{opacity:1;transform:none}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:768px){nav{padding:1rem 1.25rem}.page-hero,.content{padding-left:1.25rem;padding-right:1.25rem}.aircraft-stats{grid-template-columns:repeat(2,1fr)}footer{flex-direction:column;gap:.5rem;text-align:center}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Rex.</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="interests.html">Interests</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><button class="theme-btn" id="themeBtn">🌙 Dark</button></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <a href="interests.html" class="back-link">← Back to Interests</a>
+    <p class="page-label">Interest</p>
+    <h1 class="page-title">Aviation.</h1>
+    <p class="page-sub">The science of flight, the art of aircraft design, and the stories of the machines that changed history. From WWII warbirds to modern multirole fighters.</p>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="content">
+
+    <div class="reveal" style="margin-bottom:1.75rem">
+      <p class="section-label">Favourite Aircraft</p>
+      <h2 class="section-title">The Ones That Define the Sky.</h2>
+    </div>
+
+    <!-- Mitsubishi A6M Zero -->
+    <div class="aircraft-card reveal">
+      <!-- WWII-era Zero illustration via SVG since public domain photos are hard to hotlink reliably -->
+      <div class="aircraft-photo-fallback" style="background:linear-gradient(135deg,#2c2416,#5a3e1b);font-size:6rem;opacity:1">
+        <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" width="420" height="200" style="opacity:.7">
+          <!-- Zero fuselage -->
+          <ellipse cx="210" cy="100" rx="130" ry="18" fill="#c8a96e" stroke="#a07840" stroke-width="1.5"/>
+          <!-- nose -->
+          <ellipse cx="78" cy="100" rx="16" ry="14" fill="#b8956a"/>
+          <!-- tail -->
+          <path d="M335 100 L360 85 L365 100 L360 115Z" fill="#c8a96e" stroke="#a07840" stroke-width="1"/>
+          <!-- main wings -->
+          <path d="M170 98 L155 55 L240 90 L240 110 L155 145Z" fill="#c8a96e" stroke="#a07840" stroke-width="1.5"/>
+          <!-- hinomaru right wing -->
+          <circle cx="175" cy="100" r="10" fill="white"/><circle cx="175" cy="100" r="6.5" fill="#c0392b"/>
+          <!-- cockpit -->
+          <ellipse cx="190" cy="90" rx="22" ry="10" fill="rgba(150,200,255,0.35)" stroke="#a07840" stroke-width="1"/>
+          <!-- prop -->
+          <line x1="62" y1="78" x2="62" y2="122" stroke="#7a5a30" stroke-width="4" stroke-linecap="round"/>
+          <line x1="48" y1="100" x2="76" y2="100" stroke="#7a5a30" stroke-width="4" stroke-linecap="round"/>
+          <!-- hinomaru fuselage -->
+          <circle cx="240" cy="100" r="11" fill="white" stroke="#a07840" stroke-width=".5"/>
+          <circle cx="240" cy="100" r="7" fill="#c0392b"/>
+          <!-- label -->
+          <text x="210" y="175" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="rgba(200,169,110,0.7)" letter-spacing="3">MITSUBISHI A6M ZERO</text>
+        </svg>
+      </div>
+      <div class="aircraft-body">
+        <div class="aircraft-era">World War II · Imperial Japanese Navy · 1940</div>
+        <div class="aircraft-name">Mitsubishi A6M Zero</div>
+        <div class="aircraft-full">Mitsubishi A6M Rei-shiki Kanjō Sentōki (零式艦上戦闘機)</div>
+        <p class="aircraft-desc">The Zero was a revelation when it first entered service in 1940 — a carrier-based fighter with extraordinary range, maneuverability, and climb rate that no Allied aircraft could match in the opening months of the Pacific War. Designed by the brilliant Jiro Horikoshi under impossible constraints — lightweight, long range, highly maneuverable — it achieved a near-perfect balance that shocked the world. Allied pilots were instructed never to dogfight a Zero at low speed, as it would simply turn inside any opponent. The Zero symbolises what can be achieved through pure engineering ingenuity under extreme resource limitations. Produced in over 10,000 units, it remains one of the most iconic fighter aircraft ever built.</p>
+        <div class="aircraft-specs">
+          <span class="spec-badge">Carrier Fighter</span>
+          <span class="spec-badge">Pacific Theatre</span>
+          <span class="spec-badge">1940–1945</span>
+          <span class="spec-badge">IJN</span>
+          <span class="spec-badge">Nakajima Sakae Radial</span>
+          <span class="spec-badge">Jiro Horikoshi Design</span>
+        </div>
+        <div class="aircraft-stats">
+          <div><div class="a-stat-val">10,939</div><div class="a-stat-label">Units Built</div></div>
+          <div><div class="a-stat-val">533 km/h</div><div class="a-stat-label">Top Speed</div></div>
+          <div><div class="a-stat-val">3,105 km</div><div class="a-stat-label">Range</div></div>
+          <div><div class="a-stat-val">1940</div><div class="a-stat-label">First Flight</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eurofighter Typhoon EF2000 -->
+    <div class="aircraft-card reveal">
+      <!-- Real photo from Wikimedia Commons - Public Domain / UK MOD -->
+      <img class="aircraft-photo"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Eurofighter_Typhoon_-_RIAT_2008_%28modified%29.jpg/1280px-Eurofighter_Typhoon_-_RIAT_2008_%28modified%29.jpg"
+        alt="Eurofighter Typhoon EF2000 in flight"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="aircraft-photo-fallback" style="display:none">✈️</div>
+      <div class="aircraft-body">
+        <div class="aircraft-era">Modern Era · Multirole Fighter · 2003</div>
+        <div class="aircraft-name">Eurofighter Typhoon EF2000</div>
+        <div class="aircraft-full">Eurofighter EF2000 Typhoon — Multi-National 4.5th Generation Fighter</div>
+        <p class="aircraft-desc">My favourite modern fighter — and not by a small margin. The Typhoon is a masterpiece of collaborative European aerospace engineering. A delta-canard unstable design with fly-by-wire controls, it achieves agility that would be impossible in a stable aircraft. The EJ200 engines give it genuine supercruise capability — supersonic flight without afterburner — making it one of the most energy-efficient fighters in service today. Built by four nations (UK, Germany, Italy, Spain) through the Eurofighter consortium, the Typhoon proves what happens when top engineering teams work together. In the air superiority role it is genuinely dangerous, and its growing ground attack capability through the Striker II helmet and CAPTOR-E AESA radar upgrades make it a true multirole platform. Absolutely beautiful in flight — the delta-canard shape is one of the most aerodynamically perfect forms ever put in the sky.</p>
+        <div class="aircraft-specs">
+          <span class="spec-badge">Multirole Fighter</span>
+          <span class="spec-badge">4.5th Generation</span>
+          <span class="spec-badge">Supercruise Capable</span>
+          <span class="spec-badge">Delta-Canard</span>
+          <span class="spec-badge">Fly-by-Wire</span>
+          <span class="spec-badge">CAPTOR-E AESA</span>
+          <span class="spec-badge">EJ200 Engines</span>
+          <span class="spec-badge">Eurofighter Consortium</span>
+        </div>
+        <div class="aircraft-stats">
+          <div><div class="a-stat-val">Mach 2</div><div class="a-stat-label">Top Speed</div></div>
+          <div><div class="a-stat-val">65,000 ft</div><div class="a-stat-label">Service Ceiling</div></div>
+          <div><div class="a-stat-val">600+</div><div class="a-stat-label">Units Delivered</div></div>
+          <div><div class="a-stat-val">2003</div><div class="a-stat-label">Service Entry</div></div>
+        </div>
+        <p class="photo-credit">Photo: © Crown Copyright / UK MOD via Wikimedia Commons (OGL v1.0)</p>
+      </div>
+    </div>
+
+    <!-- General interests -->
+    <div class="reveal" style="margin-bottom:1.5rem;margin-top:1rem">
+      <p class="section-label">What I Follow</p>
+      <h2 class="section-title">Aviation Interests.</h2>
+    </div>
+    <div class="cards-grid">
+      <div class="info-card reveal">
+        <div class="info-icon">⚙️</div>
+        <div class="info-title">Aircraft Mechanics</div>
+        <p class="info-desc">How lift is generated, how jet engines work, aerodynamics, structural design — the physics and engineering behind why aircraft fly and how they push limits.</p>
+      </div>
+      <div class="info-card reveal" style="transition-delay:.1s">
+        <div class="info-icon">🪖</div>
+        <div class="info-title">Military Aviation History</div>
+        <p class="info-desc">WWII Pacific air campaigns, the dawn of the jet age, Cold War arms race in the sky — aviation history is inseparable from the history of the modern world.</p>
+      </div>
+      <div class="info-card reveal" style="transition-delay:.2s">
+        <div class="info-icon">🚀</div>
+        <div class="info-title">Modern Fighter Technology</div>
+        <p class="info-desc">Stealth coatings, AESA radars, thrust vectoring, fly-by-wire, helmet-mounted displays — modern 4th and 5th gen fighters are the most complex machines humans have ever built.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="divider"/>
+  <footer>
+    <span class="footer-name">Sheikh Zayed</span>
+    <span class="footer-copy">© Built with care and passion · 2026</span>
+  </footer>
+
+  <script>
+    const btn=document.getElementById('themeBtn');const saved=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',saved);btn.textContent=saved==='dark'?'☀️ Light':'🌙 Dark';btn.addEventListener('click',()=>{const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);btn.textContent=n==='dark'?'☀️ Light':'🌙 Dark'});
+    const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.1});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>

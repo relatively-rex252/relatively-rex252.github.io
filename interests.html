@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interests — Rex</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f7f5f2;--bg2:#efecea;--ink:#1a1814;--ink-muted:#6b6760;--accent:#c8502a;--border:#e2dfd9;--card:#fff;--shadow:rgba(0,0,0,0.06)}
+    [data-theme="dark"]{--bg:#0f0e0c;--bg2:#1a1916;--ink:#e8e4de;--ink-muted:#8a8580;--accent:#e8673f;--border:#2a2826;--card:#1a1916;--shadow:rgba(0,0,0,0.3)}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:rgba(247,245,242,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background .3s}
+    [data-theme="dark"] nav{background:rgba(15,14,12,.88)}
+    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--ink);text-decoration:none}
+    .nav-links{display:flex;gap:1.75rem;list-style:none;align-items:center}
+    .nav-links a{font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;transition:color .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent)}
+    .theme-btn{background:var(--card);border:1px solid var(--border);color:var(--ink);padding:.4rem .9rem;border-radius:20px;font-size:.78rem;font-weight:500;cursor:pointer;letter-spacing:.05em;transition:all .2s;font-family:'DM Sans',sans-serif}
+    .theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .page-hero{padding:10rem 3rem 5rem;max-width:1100px;margin:0 auto}
+    .page-label{font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem;opacity:0;animation:fadeUp .6s .1s forwards}
+    .page-title{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:1.25rem;opacity:0;animation:fadeUp .7s .25s forwards}
+    .page-title em{font-style:italic;color:var(--accent)}
+    .page-sub{font-size:1.05rem;font-weight:300;color:var(--ink-muted);max-width:540px;line-height:1.8;opacity:0;animation:fadeUp .7s .4s forwards}
+    hr.divider{border:none;border-top:1px solid var(--border);max-width:1100px;margin:0 auto}
+    .grid-section{max-width:1100px;margin:0 auto;padding:5rem 3rem}
+    .interests-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.75rem}
+    .interest-card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:2.25rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.85rem;transition:all .25s;position:relative;overflow:hidden}
+    .interest-card::after{content:'';position:absolute;inset:0;background:var(--accent);opacity:0;transition:opacity .25s}
+    .interest-card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 16px 40px var(--shadow)}
+    .interest-emoji{font-size:2.5rem}
+    .interest-name{font-family:'DM Serif Display',serif;font-size:1.5rem}
+    .interest-desc{font-size:.9rem;font-weight:300;color:var(--ink-muted);line-height:1.7;flex:1}
+    .interest-link{font-size:.74rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:.5rem}
+    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto}
+    .footer-name{font-family:'DM Serif Display',serif;font-size:.95rem}
+    .footer-copy{font-size:.76rem;color:var(--ink-muted)}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+    .reveal.visible{opacity:1;transform:none}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:768px){nav{padding:1rem 1.25rem}.page-hero,.grid-section{padding-left:1.25rem;padding-right:1.25rem}footer{flex-direction:column;gap:.5rem;text-align:center}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Rex.</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="interests.html" class="active">Interests</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+      <li><button class="theme-btn" id="themeBtn">🌙 Dark</button></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <p class="page-label">Beyond Academics</p>
+    <h1 class="page-title">What drives me<br><em>beyond the books.</em></h1>
+    <p class="page-sub">These aren't just hobbies — they're the things that shape how I think, what I build, and who I am.</p>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="grid-section">
+    <div class="interests-grid">
+      <a href="interest-gaming.html" class="interest-card reveal">
+        <div class="interest-emoji">🎮</div>
+        <div class="interest-name">Gaming</div>
+        <p class="interest-desc">From mobile battlegrounds to PC war simulations — a deep love for games across every platform and genre.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="interest-sports.html" class="interest-card reveal" style="transition-delay:.1s">
+        <div class="interest-emoji">⚽</div>
+        <div class="interest-name">Sports</div>
+        <p class="interest-desc">Football is life. A Madridista through and through, with a soft spot for the beautiful game's greatest legends.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="interest-robotics.html" class="interest-card reveal" style="transition-delay:.2s">
+        <div class="interest-emoji">🤖</div>
+        <div class="interest-name">Robotics</div>
+        <p class="interest-desc">Drones, autonomous bots, and microcontroller projects — fascinated by machines that think and move.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="interest-aviation.html" class="interest-card reveal" style="transition-delay:.3s">
+        <div class="interest-emoji">✈️</div>
+        <div class="interest-name">Aviation</div>
+        <p class="interest-desc">The mechanics of flight, legendary warbirds, and the engineering marvels that let humans conquer the sky.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+  <footer>
+    <span class="footer-name">Sheikh Zayed</span>
+    <span class="footer-copy">© Built with care and passion · 2026</span>
+  </footer>
+
+  <script>
+    const btn=document.getElementById('themeBtn');
+    const saved=localStorage.getItem('theme')||'light';
+    document.documentElement.setAttribute('data-theme',saved);
+    btn.textContent=saved==='dark'?'☀️ Light':'🌙 Dark';
+    btn.addEventListener('click',()=>{const c=document.documentElement.getAttribute('data-theme');const n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('theme',n);btn.textContent=n==='dark'?'☀️ Light':'🌙 Dark'});
+    const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>
