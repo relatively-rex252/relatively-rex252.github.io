@@ -90,33 +90,15 @@
       <h2 class="section-title">The Ones That Define the Sky.</h2>
     </div>
 
-    <!-- Mitsubishi A6M Zero -->
-    <div class="aircraft-card reveal">
-      <!-- WWII-era Zero illustration via SVG since public domain photos are hard to hotlink reliably -->
-      <div class="aircraft-photo-fallback" style="background:linear-gradient(135deg,#2c2416,#5a3e1b);font-size:6rem;opacity:1">
-        <svg viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg" width="420" height="200" style="opacity:.7">
-          <!-- Zero fuselage -->
-          <ellipse cx="210" cy="100" rx="130" ry="18" fill="#c8a96e" stroke="#a07840" stroke-width="1.5"/>
-          <!-- nose -->
-          <ellipse cx="78" cy="100" rx="16" ry="14" fill="#b8956a"/>
-          <!-- tail -->
-          <path d="M335 100 L360 85 L365 100 L360 115Z" fill="#c8a96e" stroke="#a07840" stroke-width="1"/>
-          <!-- main wings -->
-          <path d="M170 98 L155 55 L240 90 L240 110 L155 145Z" fill="#c8a96e" stroke="#a07840" stroke-width="1.5"/>
-          <!-- hinomaru right wing -->
-          <circle cx="175" cy="100" r="10" fill="white"/><circle cx="175" cy="100" r="6.5" fill="#c0392b"/>
-          <!-- cockpit -->
-          <ellipse cx="190" cy="90" rx="22" ry="10" fill="rgba(150,200,255,0.35)" stroke="#a07840" stroke-width="1"/>
-          <!-- prop -->
-          <line x1="62" y1="78" x2="62" y2="122" stroke="#7a5a30" stroke-width="4" stroke-linecap="round"/>
-          <line x1="48" y1="100" x2="76" y2="100" stroke="#7a5a30" stroke-width="4" stroke-linecap="round"/>
-          <!-- hinomaru fuselage -->
-          <circle cx="240" cy="100" r="11" fill="white" stroke="#a07840" stroke-width=".5"/>
-          <circle cx="240" cy="100" r="7" fill="#c0392b"/>
-          <!-- label -->
-          <text x="210" y="175" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="rgba(200,169,110,0.7)" letter-spacing="3">MITSUBISHI A6M ZERO</text>
-        </svg>
-      </div>
+  <!-- Mitsubishi A6M Zero -->
+<div class="aircraft-card reveal">
+
+    <img class="aircraft-photo"
+        src="zero.jpg"
+        alt="Mitsubishi A6M Zero"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"/>
+
+    <div class="aircraft-photo-fallback" style="display:none">🛩️</div>
       <div class="aircraft-body">
         <div class="aircraft-era">World War II · Imperial Japanese Navy · 1940</div>
         <div class="aircraft-name">Mitsubishi A6M Zero</div>
