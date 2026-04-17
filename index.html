@@ -7,129 +7,335 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f7f5f2;--bg2:#efecea;--ink:#1a1814;--ink-muted:#6b6760;--accent:#c8502a;--accent2:#e8673f;--border:#e2dfd9;--card:#fff;--shadow:rgba(0,0,0,0.06)}
-    [data-theme="dark"]{--bg:#0f0e0c;--bg2:#1a1916;--ink:#e8e4de;--ink-muted:#8a8580;--accent:#e8673f;--accent2:#c8502a;--border:#2a2826;--card:#1a1916;--shadow:rgba(0,0,0,0.3)}
-    html{scroll-behavior:smooth}
-    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:rgba(247,245,242,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background .3s}
-    [data-theme="dark"] nav{background:rgba(15,14,12,.88)}
-    .nav-logo{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--ink);text-decoration:none;letter-spacing:.01em}
-    .nav-links{display:flex;gap:1.75rem;list-style:none;align-items:center}
-    .nav-links a{font-size:.82rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-muted);text-decoration:none;transition:color .2s}
-    .nav-links a:hover{color:var(--accent)}
-    .theme-btn{background:var(--card);border:1px solid var(--border);color:var(--ink);padding:.4rem .9rem;border-radius:20px;font-size:.78rem;font-weight:500;cursor:pointer;letter-spacing:.05em;transition:all .2s;font-family:'DM Sans',sans-serif}
-    .theme-btn:hover{border-color:var(--accent);color:var(--accent)}
-    #hero{min-height:100vh;display:flex;align-items:center;padding:8rem 3rem 4rem;max-width:1100px;margin:0 auto;position:relative}
-    .hero-content{max-width:700px}
-    .hero-tag{display:inline-block;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.28rem .8rem;border-radius:2px;margin-bottom:2rem;opacity:0;animation:fadeUp .6s .1s forwards}
-    h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,7vw,5.5rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:.4rem;opacity:0;animation:fadeUp .7s .25s forwards}
-    .hero-alias{display:block;font-size:clamp(1rem,2vw,1.25rem);font-weight:300;color:var(--ink-muted);letter-spacing:.06em;margin-bottom:1.5rem;opacity:0;animation:fadeUp .7s .35s forwards}
-    .hero-bio{font-size:1.08rem;font-weight:300;color:var(--ink-muted);max-width:520px;line-height:1.8;margin-bottom:2.5rem;opacity:0;animation:fadeUp .7s .45s forwards}
-    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp .7s .55s forwards}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.6rem;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border-radius:3px;transition:all .2s;cursor:pointer;border:none}
-    .btn-primary{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}
-    .btn-primary:hover{background:var(--accent);border-color:var(--accent)}
-    .btn-outline{background:transparent;color:var(--ink);border:1px solid var(--border)}
-    .btn-outline:hover{border-color:var(--ink)}
-    .hero-orb{position:absolute;right:0;top:50%;transform:translateY(-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle at 40% 40%,var(--accent2),transparent 70%);opacity:.12;filter:blur(60px);animation:orbFloat 6s ease-in-out infinite;pointer-events:none}
-    @keyframes orbFloat{0%,100%{transform:translateY(-50%) scale(1)}50%{transform:translateY(-55%) scale(1.08)}}
-    .hero-scroll{position:absolute;bottom:2.5rem;left:3rem;display:flex;align-items:center;gap:.75rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);opacity:0;animation:fadeUp .6s .9s forwards}
-    .hero-scroll::before{content:'';display:block;width:36px;height:1px;background:var(--ink-muted)}
-    section{max-width:1100px;margin:0 auto;padding:6rem 3rem}
-    .section-label{font-size:.7rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
-    .section-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:3rem}
-    hr.divider{border:none;border-top:1px solid var(--border);max-width:1100px;margin:0 auto}
-    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
-    .about-text p{font-size:1.03rem;font-weight:300;color:var(--ink-muted);line-height:1.85;margin-bottom:1.2rem}
-    .about-text p strong{color:var(--ink);font-weight:500}
-    .about-facts{display:flex;flex-direction:column;gap:1.4rem}
-    .fact{padding:1.4rem;background:var(--card);border:1px solid var(--border);border-radius:4px;transition:background .3s,border-color .3s}
-    .fact-label{font-size:.68rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
-    .fact-value{font-size:.93rem;color:var(--ink)}
-    #skills{background:var(--bg2)}
-    .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem}
-    .skill-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:1.5rem;transition:transform .2s,border-color .2s}
-    .skill-card:hover{transform:translateY(-3px);border-color:var(--accent)}
-    .skill-icon{font-size:1.6rem;margin-bottom:.75rem}
-    .skill-name{font-family:'DM Serif Display',serif;font-size:1.1rem;margin-bottom:.4rem}
-    .skill-level{height:3px;background:var(--border);border-radius:2px;margin-top:.75rem;overflow:hidden}
-    .skill-level-bar{height:100%;background:var(--accent);border-radius:2px;transition:width 1s ease;width:0}
-    .skill-desc{font-size:.82rem;color:var(--ink-muted);font-weight:300;margin-top:.4rem}
-    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem}
-    .project-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem;display:flex;flex-direction:column;gap:1rem;transition:border-color .2s,transform .2s;text-decoration:none;color:inherit;position:relative;overflow:hidden}
-    .project-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);transform:scaleY(0);transform-origin:bottom;transition:transform .3s}
-    .project-card:hover{border-color:var(--ink);transform:translateY(-3px)}
-    .project-card:hover::before{transform:scaleY(1)}
-    .project-card-top{display:flex;align-items:flex-start;justify-content:space-between}
-    .project-icon{font-size:1.5rem}
-    .project-tag{font-size:.66rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.18rem .55rem;border-radius:2px}
-    .project-name{font-family:'DM Serif Display',serif;font-size:1.4rem;line-height:1.2}
-    .project-abbr{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-top:.15rem}
-    .project-desc{font-size:.9rem;font-weight:300;color:var(--ink-muted);line-height:1.7}
-    .tech-tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:auto}
-    .tech-tag{font-size:.68rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);background:var(--bg);border:1px solid var(--border);padding:.18rem .55rem;border-radius:2px}
-    .project-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--border);font-size:.76rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
-    .project-footer svg{width:14px;height:14px;fill:currentColor}
-    .interests-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
-    .interest-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:2rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.75rem;transition:all .25s}
-    .interest-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 12px 30px var(--shadow)}
-    .interest-emoji{font-size:2.2rem}
-    .interest-name{font-family:'DM Serif Display',serif;font-size:1.35rem}
-    .interest-desc{font-size:.88rem;font-weight:300;color:var(--ink-muted);line-height:1.65;flex:1}
-    .interest-link{font-size:.74rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:.5rem}
-    .contact-inner{display:flex;flex-direction:column;align-items:flex-start;gap:3rem}
-    .contact-heading{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;max-width:600px}
-    .contact-heading em{font-style:italic;color:var(--accent)}
-    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;width:100%}
-    .social-links{display:flex;flex-direction:column;gap:.75rem}
-    .social-link{display:inline-flex;align-items:center;gap:.6rem;padding:.75rem 1.4rem;background:var(--card);border:1px solid var(--border);border-radius:3px;font-size:.85rem;font-weight:500;color:var(--ink);text-decoration:none;letter-spacing:.02em;transition:all .2s}
-    .social-link:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-    .social-link svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
-    .form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
-    .form-label{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)}
-    .form-input,.form-textarea{background:var(--card);border:1px solid var(--border);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.9rem;padding:.75rem 1rem;border-radius:3px;transition:border-color .2s,background .3s;outline:none;width:100%}
-    .form-input:focus,.form-textarea:focus{border-color:var(--accent)}
-    .form-textarea{resize:vertical;min-height:120px}
-    .form-submit{background:var(--ink);color:var(--bg);border:1px solid var(--ink);padding:.75rem 1.6rem;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-radius:3px;cursor:pointer;transition:all .2s}
-    .form-submit:hover{background:var(--accent);border-color:var(--accent)}
-    .form-submit:disabled{opacity:.5;cursor:not-allowed}
-    .admin-toggle{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--border);cursor:pointer;user-select:none;transition:color .3s;margin-top:1rem;display:inline-block}
-    .admin-toggle:hover{color:var(--ink-muted)}
-    .admin-box{display:none;margin-top:1rem;padding:1.25rem;background:var(--card);border:1px solid var(--border);border-radius:4px}
-    .admin-panel{display:none;margin-top:1.5rem}
-    .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-    .admin-title{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
-    .admin-clear{font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);background:none;border:1px solid var(--border);padding:.25rem .6rem;border-radius:2px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
-    .admin-clear:hover{border-color:var(--accent);color:var(--accent)}
-    .comments-list{display:flex;flex-direction:column;gap:.75rem;max-height:380px;overflow-y:auto}
-    .comment-item{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem;font-size:.88rem}
-    .comment-meta{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem;gap:.5rem}
-    .comment-name{font-weight:500;color:var(--ink)}
-    .comment-time{font-size:.7rem;color:var(--ink-muted);white-space:nowrap}
-    .comment-text{color:var(--ink-muted);font-weight:300;line-height:1.6}
-    .comment-delete{background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--ink-muted);padding:.1rem .3rem;transition:color .2s;flex-shrink:0}
-    .comment-delete:hover{color:var(--accent)}
-    .admin-err{font-size:.8rem;color:var(--accent);margin-top:.5rem;display:none}
-    .status-msg{font-size:.8rem;margin-top:.6rem;display:none}
-    .popup-overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);align-items:center;justify-content:center}
-    .popup-overlay.active{display:flex}
-    .popup-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:2.5rem;max-width:420px;width:90%;text-align:center}
-    .popup-emoji{font-size:3rem;margin-bottom:1rem}
-    .popup-title{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:.75rem}
-    .popup-msg{font-size:.93rem;color:var(--ink-muted);font-weight:300;line-height:1.7;margin-bottom:1.5rem}
-    .popup-close{background:var(--ink);color:var(--bg);border:none;padding:.65rem 1.5rem;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s}
-    .popup-close:hover{background:var(--accent)}
-    footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto}
-    .footer-name{font-family:'DM Serif Display',serif;font-size:.95rem}
-    .footer-copy{font-size:.76rem;color:var(--ink-muted)}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
-    .reveal.visible{opacity:1;transform:none}
-    @media(max-width:768px){nav{padding:1rem 1.25rem}.nav-links{gap:1rem}.nav-links .hide-mobile{display:none}#hero{padding:7rem 1.25rem 3rem}section{padding:4rem 1.25rem}.about-grid,.contact-grid{grid-template-columns:1fr;gap:2.5rem}footer{flex-direction:column;gap:.5rem;text-align:center}.hero-orb{display:none}}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f5f2;
+      --bg2: #efecea;
+      --ink: #1a1814;
+      --ink-muted: #6b6760;
+      --accent: #c8502a;
+      --accent2: #e8673f;
+      --border: #e2dfd9;
+      --card: #fff;
+      --shadow: rgba(0,0,0,0.06);
+    }
+    [data-theme="dark"] {
+      --bg: #0f0e0c;
+      --bg2: #1a1916;
+      --ink: #e8e4de;
+      --ink-muted: #8a8580;
+      --accent: #e8673f;
+      --accent2: #c8502a;
+      --border: #2a2826;
+      --card: #1a1916;
+      --shadow: rgba(0,0,0,0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(247,245,242,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    [data-theme="dark"] nav { background: rgba(15,14,12,0.88); }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem; color: var(--ink);
+      text-decoration: none; letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.82rem; font-weight: 500;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--ink-muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .theme-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--ink); padding: 0.4rem 0.9rem;
+      border-radius: 20px; font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; letter-spacing: 0.05em;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 8rem 3rem 4rem; max-width: 1100px;
+      margin: 0 auto; position: relative;
+    }
+    .hero-content { max-width: 700px; }
+    .hero-tag {
+      display: inline-block; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 0.28rem 0.8rem; border-radius: 2px; margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.4rem;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero-alias {
+      display: block; font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 300; color: var(--ink-muted);
+      letter-spacing: 0.06em; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+    }
+    .hero-bio {
+      font-size: 1.08rem; font-weight: 300; color: var(--ink-muted);
+      max-width: 520px; line-height: 1.8; margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.7s 0.45s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.6rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase; text-decoration: none;
+      border-radius: 3px; transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--ink); }
+
+    /* floating orb animation */
+    .hero-orb {
+      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      width: 340px; height: 340px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 40%, var(--accent2), transparent 70%);
+      opacity: 0.12; filter: blur(60px);
+      animation: orbFloat 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-55%) scale(1.08); }
+    }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 3rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-muted); opacity: 0; animation: fadeUp 0.6s 0.9s forwards;
+    }
+    .hero-scroll::before {
+      content: ''; display: block; width: 36px; height: 1px; background: var(--ink-muted);
+    }
+
+    /* ── SECTIONS ── */
+    section { max-width: 1100px; margin: 0 auto; padding: 6rem 3rem; }
+    .section-label {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-bottom: 3rem;
+    }
+    hr.divider {
+      border: none; border-top: 1px solid var(--border);
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .about-text p { font-size: 1.03rem; font-weight: 300; color: var(--ink-muted); line-height: 1.85; margin-bottom: 1.2rem; }
+    .about-text p strong { color: var(--ink); font-weight: 500; }
+    .about-facts { display: flex; flex-direction: column; gap: 1.4rem; }
+    .fact { padding: 1.4rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; transition: background 0.3s, border-color 0.3s; }
+    .fact-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+    .fact-value { font-size: 0.93rem; color: var(--ink); }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .skill-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 4px; padding: 1.5rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .skill-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .skill-icon { font-size: 1.6rem; margin-bottom: 0.75rem; }
+    .skill-name { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .skill-level {
+      height: 3px; background: var(--border); border-radius: 2px; margin-top: 0.75rem; overflow: hidden;
+    }
+    .skill-level-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 1s ease; width: 0; }
+    .skill-desc { font-size: 0.82rem; color: var(--ink-muted); font-weight: 300; margin-top: 0.4rem; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 4px;
+      padding: 2rem; display: flex; flex-direction: column; gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s; text-decoration: none; color: inherit;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--accent);
+      transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s;
+    }
+    .project-card:hover { border-color: var(--ink); transform: translateY(-3px); }
+    .project-card:hover::before { transform: scaleY(1); }
+    .project-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+    .project-icon { font-size: 1.5rem; }
+    .project-tag {
+      font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      border: 1px solid var(--accent); padding: 0.18rem 0.55rem; border-radius: 2px;
+    }
+    .project-name { font-family: 'DM Serif Display', serif; font-size: 1.4rem; line-height: 1.2; }
+    .project-abbr { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); margin-top: 0.15rem; }
+    .project-desc { font-size: 0.9rem; font-weight: 300; color: var(--ink-muted); line-height: 1.7; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: auto; }
+    .tech-tag {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ink-muted); background: var(--bg); border: 1px solid var(--border);
+      padding: 0.18rem 0.55rem; border-radius: 2px;
+    }
+    .project-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 1rem; border-top: 1px solid var(--border);
+      font-size: 0.76rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--ink-muted);
+    }
+    .project-footer svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ── INTERESTS ── */
+    .interests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+    .interest-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 4px;
+      padding: 2rem; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 0.75rem;
+      transition: all 0.25s; position: relative; overflow: hidden;
+    }
+    .interest-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 30px var(--shadow); }
+    .interest-emoji { font-size: 2.2rem; }
+    .interest-name { font-family: 'DM Serif Display', serif; font-size: 1.35rem; }
+    .interest-desc { font-size: 0.88rem; font-weight: 300; color: var(--ink-muted); line-height: 1.65; flex: 1; }
+    .interest-link {
+      font-size: 0.74rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent); margin-top: 0.5rem;
+    }
+
+    /* ── CONTACT ── */
+    .contact-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 3rem; }
+    .contact-heading { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; max-width: 600px; }
+    .contact-heading em { font-style: italic; color: var(--accent); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; width: 100%; }
+    .social-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .social-link {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.75rem 1.4rem; background: var(--card);
+      border: 1px solid var(--border); border-radius: 3px;
+      font-size: 0.85rem; font-weight: 500; color: var(--ink);
+      text-decoration: none; letter-spacing: 0.02em; transition: all 0.2s;
+    }
+    .social-link:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .social-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
+    /* Contact form */
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+    .form-input, .form-textarea {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--ink); font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; padding: 0.75rem 1rem; border-radius: 3px;
+      transition: border-color 0.2s, background 0.3s; outline: none; width: 100%;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-textarea { resize: vertical; min-height: 130px; }
+    .form-submit {
+      background: var(--ink); color: var(--bg); border: 1px solid var(--ink);
+      padding: 0.75rem 1.6rem; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; border-radius: 3px; cursor: pointer;
+      transition: all 0.2s; align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* Popups */
+    .popup-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+    }
+    .popup-overlay.active { display: flex; }
+    .popup-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 2.5rem; max-width: 420px; width: 90%;
+      text-align: center; position: relative;
+    }
+    .popup-emoji { font-size: 3rem; margin-bottom: 1rem; }
+    .popup-title { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .popup-msg { font-size: 0.93rem; color: var(--ink-muted); font-weight: 300; line-height: 1.7; margin-bottom: 1.5rem; }
+    .popup-close {
+      background: var(--ink); color: var(--bg); border: none;
+      padding: 0.65rem 1.5rem; border-radius: 3px; font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; cursor: pointer; transition: background 0.2s;
+    }
+    .popup-close:hover { background: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .footer-name { font-family: 'DM Serif Display', serif; font-size: 0.95rem; }
+    .footer-copy { font-size: 0.76rem; color: var(--ink-muted); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links .hide-mobile { display: none; }
+      #hero { padding: 7rem 1.25rem 3rem; }
+      section { padding: 4rem 1.25rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .hero-orb { display: none; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- NAV -->
   <nav>
     <a href="#hero" class="nav-logo">Rex.</a>
     <ul class="nav-links">
@@ -142,6 +348,7 @@
     </ul>
   </nav>
 
+  <!-- HERO -->
   <div id="hero">
     <div class="hero-content">
       <span class="hero-tag">EEE Student · Builder · Enthusiast</span>
@@ -159,6 +366,7 @@
 
   <hr class="divider"/>
 
+  <!-- ABOUT -->
   <section id="about">
     <p class="section-label reveal">About</p>
     <h2 class="section-title reveal">A bit about me.</h2>
@@ -169,42 +377,95 @@
         <p>Outside academics, I'm into aviation, mechanics, football, and gaming. Always building something, always learning.</p>
       </div>
       <div class="about-facts reveal">
-        <div class="fact"><div class="fact-label">Currently</div><div class="fact-value">B.Sc. in EEE — North South University, Dhaka</div></div>
-        <div class="fact"><div class="fact-label">Learning</div><div class="fact-value">Circuits · C Programming · Python · Calculus</div></div>
-        <div class="fact"><div class="fact-label">From</div><div class="fact-value">Jashore → Dhaka, Bangladesh</div></div>
+        <div class="fact">
+          <div class="fact-label">Currently</div>
+          <div class="fact-value">B.Sc. in EEE — North South University, Dhaka</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">Learning</div>
+          <div class="fact-value">Circuits · C Programming · Python · Calculus</div>
+        </div>
+        <div class="fact">
+          <div class="fact-label">From</div>
+          <div class="fact-value">Jashore → Dhaka, Bangladesh</div>
+        </div>
       </div>
     </div>
   </section>
 
   <hr class="divider"/>
 
+  <!-- SKILLS -->
   <section id="skills">
     <p class="section-label reveal">Toolkit</p>
     <h2 class="section-title reveal">Skills.</h2>
     <div class="skills-grid">
-      <div class="skill-card reveal"><div class="skill-icon">⚡</div><div class="skill-name">Circuit Analysis</div><div class="skill-desc">AC/DC circuits, Kirchhoff's laws, mesh & nodal analysis</div><div class="skill-level"><div class="skill-level-bar" data-width="72"></div></div></div>
-      <div class="skill-card reveal"><div class="skill-icon">💻</div><div class="skill-name">C Programming</div><div class="skill-desc">Functions, loops, file I/O, data structures, terminal apps</div><div class="skill-level"><div class="skill-level-bar" data-width="65"></div></div></div>
-      <div class="skill-card reveal"><div class="skill-icon">🐍</div><div class="skill-name">Python</div><div class="skill-desc">Scripting, automation, voice assistants, general purpose</div><div class="skill-level"><div class="skill-level-bar" data-width="60"></div></div></div>
-      <div class="skill-card reveal"><div class="skill-icon">📐</div><div class="skill-name">Mathematics</div><div class="skill-desc">Calculus, linear algebra, differential equations</div><div class="skill-level"><div class="skill-level-bar" data-width="68"></div></div></div>
-      <div class="skill-card reveal"><div class="skill-icon">🔧</div><div class="skill-name">Problem Solving</div><div class="skill-desc">Logical thinking, debugging, breaking down complex systems</div><div class="skill-level"><div class="skill-level-bar" data-width="80"></div></div></div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Circuit Analysis</div>
+        <div class="skill-desc">AC/DC circuits, Kirchhoff's laws, mesh & nodal analysis</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="72"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">💻</div>
+        <div class="skill-name">C Programming</div>
+        <div class="skill-desc">Functions, loops, file I/O, data structures, terminal apps</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="65"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Python</div>
+        <div class="skill-desc">Scripting, automation, voice assistants, general purpose</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="60"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">📐</div>
+        <div class="skill-name">Mathematics</div>
+        <div class="skill-desc">Calculus, linear algebra, differential equations</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="68"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🔧</div>
+        <div class="skill-name">Problem Solving</div>
+        <div class="skill-desc">Logical thinking, debugging, breaking down complex systems</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="80"></div></div>
+      </div>
     </div>
   </section>
 
   <hr class="divider"/>
 
+  <!-- PROJECTS -->
   <section id="projects">
     <p class="section-label reveal">Work</p>
     <h2 class="section-title reveal">Projects.</h2>
     <div class="projects-grid">
       <a href="https://github.com/relatively-rex252/SPECTER" target="_blank" class="project-card reveal">
-        <div class="project-card-top"><div class="project-icon">👻</div><span class="project-tag">Voice AI</span></div>
-        <div><div class="project-name">SPECTER</div><div class="project-abbr">Smart Personal Execution Command Technology Enhanced Responder</div></div>
+        <div class="project-card-top">
+          <div class="project-icon">👻</div>
+          <span class="project-tag">Voice AI</span>
+        </div>
+        <div>
+          <div class="project-name">SPECTER</div>
+          <div class="project-abbr">Smart Personal Execution Command Technology Enhanced Responder</div>
+        </div>
         <p class="project-desc">A voice-activated personal assistant for Windows. Say the wake word and SPECTER opens apps, controls system settings, searches the web — all by voice.</p>
-        <div class="tech-tags"><span class="tech-tag">Python</span><span class="tech-tag">Speech Recognition</span><span class="tech-tag">Windows</span><span class="tech-tag">pyttsx3</span></div>
-        <div class="project-footer"><span>View on GitHub</span><svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg></div>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Speech Recognition</span>
+          <span class="tech-tag">Windows</span>
+          <span class="tech-tag">pyttsx3</span>
+        </div>
+        <div class="project-footer">
+          <span>View on GitHub</span>
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        </div>
       </a>
-      <div class="project-card reveal" style="transition-delay:.1s">
-        <div class="project-card-top"><div class="project-icon">🔒</div><span class="project-tag">Coming Soon</span></div>
+      <div class="project-card reveal" style="transition-delay:0.1s">
+        <div class="project-card-top">
+          <div class="project-icon">🔒</div>
+          <span class="project-tag">Coming Soon</span>
+        </div>
         <div><div class="project-name">Next Project</div></div>
         <p class="project-desc">Currently in the works. Stay tuned — something interesting is on the way.</p>
         <div class="tech-tags"><span class="tech-tag">TBD</span></div>
@@ -215,70 +476,111 @@
 
   <hr class="divider"/>
 
+  <!-- INTERESTS -->
   <section id="interests">
     <p class="section-label reveal">Passions</p>
     <h2 class="section-title reveal">Interests.</h2>
     <div class="interests-grid">
-      <a href="pages/interest-gaming.html" class="interest-card reveal"><div class="interest-emoji">🎮</div><div class="interest-name">Gaming</div><p class="interest-desc">From mobile battlegrounds to PC war simulations — a deep love for games across every platform and genre.</p><span class="interest-link">Explore →</span></a>
-      <a href="pages/interest-sports.html" class="interest-card reveal" style="transition-delay:.1s"><div class="interest-emoji">⚽</div><div class="interest-name">Sports</div><p class="interest-desc">Football is life. A Madridista through and through, with a soft spot for the beautiful game's greatest players.</p><span class="interest-link">Explore →</span></a>
-      <a href="pages/interest-robotics.html" class="interest-card reveal" style="transition-delay:.2s"><div class="interest-emoji">🤖</div><div class="interest-name">Robotics</div><p class="interest-desc">Drones, autonomous bots, and microcontroller projects — fascinated by machines that think and move.</p><span class="interest-link">Explore →</span></a>
-      <a href="pages/interest-aviation.html" class="interest-card reveal" style="transition-delay:.3s"><div class="interest-emoji">✈️</div><div class="interest-name">Aviation</div><p class="interest-desc">The mechanics of flight, legendary aircraft, and the engineering that lets humans conquer the sky.</p><span class="interest-link">Explore →</span></a>
+      <a href="pages/interest-gaming.html" class="interest-card reveal">
+        <div class="interest-emoji">🎮</div>
+        <div class="interest-name">Gaming</div>
+        <p class="interest-desc">From mobile battlegrounds to PC war simulations — a deep love for games across every platform and genre.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="pages/interest-sports.html" class="interest-card reveal" style="transition-delay:0.1s">
+        <div class="interest-emoji">⚽</div>
+        <div class="interest-name">Sports</div>
+        <p class="interest-desc">Football is life. A Madridista through and through, with a soft spot for the beautiful game's greatest players.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="pages/interest-robotics.html" class="interest-card reveal" style="transition-delay:0.2s">
+        <div class="interest-emoji">🤖</div>
+        <div class="interest-name">Robotics</div>
+        <p class="interest-desc">Drones, autonomous bots, and microcontroller projects — fascinated by machines that think and move.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="pages/interest-aviation.html" class="interest-card reveal" style="transition-delay:0.3s">
+        <div class="interest-emoji">✈️</div>
+        <div class="interest-name">Aviation</div>
+        <p class="interest-desc">The mechanics of flight, legendary aircraft, and the engineering that lets humans conquer the sky.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
     </div>
   </section>
 
   <hr class="divider"/>
 
+  <!-- CONTACT -->
   <section id="contact">
     <div class="contact-inner">
       <div class="section-label reveal">Contact</div>
       <h2 class="contact-heading reveal">Let's connect<br>and <em>build something.</em></h2>
       <div class="contact-grid reveal">
+        <!-- Social links -->
         <div class="social-links">
-          <a href="https://github.com/relatively-rex252" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
-          <a href="https://linkedin.com/in/sheikh-zayed125252" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.56V9H3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.27V1.73C24 .77 23.21 0 22.22 0z"/></svg>LinkedIn</a>
-          <a href="https://instagram.com/relatively_rex" target="_blank" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311C2.499 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 1.965 2.063.575 3.453.059 5.295-.026 7.15-.014 8.43 0 8.84 0 12c0 3.16.014 3.57.072 4.85.085 1.855.601 3.697 1.991 5.087 1.39 1.39 3.232 1.906 5.087 1.991C8.43 23.986 8.84 24 12 24c3.16 0 3.57-.014 4.85-.072 1.855-.085 3.697-.601 5.087-1.991 1.39-1.39 1.906-3.232 1.991-5.087C23.986 15.57 24 15.16 24 12c0-3.16-.014-3.57-.072-4.85-.085-1.855-.601-3.697-1.991-5.087C20.547.573 18.705.057 16.85-.028 15.57-.014 15.16 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>Instagram</a>
-          <a href="mailto:sheikhshakil3510m@gmail.com" class="social-link"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>Email</a>
+          <a href="https://github.com/relatively-rex252" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/sheikh-zayed125252" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.56V9H3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.27V1.73C24 .77 23.21 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://instagram.com/relatively_rex" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311C2.499 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 1.965 2.063.575 3.453.059 5.295-.026 7.15-.014 8.43 0 8.84 0 12c0 3.16.014 3.57.072 4.85.085 1.855.601 3.697 1.991 5.087 1.39 1.39 3.232 1.906 5.087 1.991C8.43 23.986 8.84 24 12 24c3.16 0 3.57-.014 4.85-.072 1.855-.085 3.697-.601 5.087-1.991 1.39-1.39 1.906-3.232 1.991-5.087C23.986 15.57 24 15.16 24 12c0-3.16-.014-3.57-.072-4.85-.085-1.855-.601-3.697-1.991-5.087C20.547.573 18.705.057 16.85-.028 15.57-.014 15.16 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            Instagram
+          </a>
+          <a href="mailto:sheikhshakil3510m@gmail.com" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Email
+          </a>
         </div>
+
+        <!-- Comment section -->
         <div id="commentSection">
           <div class="form-group">
             <label class="form-label" for="commenterName">Your Name</label>
-            <input class="form-input" type="text" id="commenterName" placeholder="Your name..." maxlength="50"/>
+            <input class="form-input" type="text" id="commenterName" placeholder="John Doe" required/>
           </div>
           <div class="form-group">
             <label class="form-label" for="commenterMsg">Leave a Comment</label>
-            <textarea class="form-textarea" id="commenterMsg" placeholder="Say something nice..." maxlength="500"></textarea>
+            <textarea class="form-textarea" id="commenterMsg" placeholder="Say something nice..." required></textarea>
           </div>
-          <button class="form-submit" id="commentBtn" type="button">Post Comment →</button>
-          <p class="status-msg" id="statusMsg"></p>
-          <span class="admin-toggle" id="adminToggle">🔒 Admin</span>
-          <div class="admin-box" id="adminBox">
+          <button class="form-submit btn" id="commentBtn" type="button">Post Comment →</button>
+          <div style="margin-top:1rem">
+            <span id="adminToggleLink" style="font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--border);cursor:pointer;user-select:none;transition:color .3s" onmouseover="this.style.color='var(--ink-muted)'" onmouseout="this.style.color='var(--border)'">🔒 Admin</span>
+          </div>
+          <!-- Admin login -->
+          <div id="adminLogin" style="display:none;margin-top:1rem;padding:1.25rem;background:var(--card);border:1px solid var(--border);border-radius:4px">
             <div class="form-group">
               <label class="form-label">Password</label>
               <input class="form-input" type="password" id="adminPass" placeholder="Enter password"/>
             </div>
-            <button class="form-submit" id="adminLoginBtn" type="button">Unlock →</button>
-            <p class="admin-err" id="adminErr">Wrong password!</p>
+            <button class="form-submit btn" id="adminLoginBtn" type="button" style="margin-top:.75rem">Unlock →</button>
+            <p id="adminErr" style="font-size:.8rem;color:var(--accent);margin-top:.5rem;display:none">Wrong password!</p>
           </div>
-          <div class="admin-panel" id="adminPanel">
-            <div class="admin-header">
-              <span class="admin-title">📋 Comments (Rex Only)</span>
-              <button class="admin-clear" id="clearAllBtn">Clear All</button>
+          <!-- Admin panel (comments viewer) -->
+          <div id="adminPanel" style="display:none;margin-top:1.5rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+              <span style="font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">📋 Comments (Rex Only)</span>
+              <button id="clearComments" style="font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);background:none;border:1px solid var(--border);padding:.25rem .6rem;border-radius:2px;cursor:pointer;font-family:'DM Sans',sans-serif">Clear All</button>
             </div>
-            <p id="loadingMsg" style="font-size:.82rem;color:var(--ink-muted);font-style:italic">Loading...</p>
-            <p id="noComments" style="font-size:.88rem;color:var(--ink-muted);font-weight:300;display:none">No comments yet.</p>
-            <div class="comments-list" id="commentsList"></div>
+            <div id="commentsList" style="display:flex;flex-direction:column;gap:.75rem;max-height:320px;overflow-y:auto"></div>
+            <p id="noComments" style="font-size:.88rem;color:var(--ink-muted);font-weight:300">No comments yet.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- FOOTER -->
   <hr class="divider"/>
   <footer>
     <span class="footer-name">Sheikh Zayed</span>
     <span class="footer-copy">© Built with care and passion · 2026</span>
   </footer>
 
+  <!-- CURSE POPUP -->
   <div class="popup-overlay" id="cursePopup">
     <div class="popup-box">
       <div class="popup-emoji">🤬</div>
@@ -287,125 +589,127 @@
       <button class="popup-close" onclick="document.getElementById('cursePopup').classList.remove('active')">Got it, sorry!</button>
     </div>
   </div>
-  <div class="popup-overlay" id="successPopup">
+
+  <!-- COMMENT SUCCESS POPUP -->
+  <div class="popup-overlay" id="commentSuccessPopup">
     <div class="popup-box">
       <div class="popup-emoji">💬</div>
       <div class="popup-title">Comment Posted!</div>
       <p class="popup-msg">Your comment has been saved. Rex will see it when he checks in! 👀</p>
-      <button class="popup-close" onclick="document.getElementById('successPopup').classList.remove('active')">Nice!</button>
+      <button class="popup-close" onclick="document.getElementById('commentSuccessPopup').classList.remove('active')">Nice!</button>
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <script>
-    firebase.initializeApp({
-      apiKey:"AIzaSyDLOhbQF_E488spfm6RCDxU5BZ-2ZwbfDA",
-      authDomain:"rex-comments.firebaseapp.com",
-      projectId:"rex-comments",
-      storageBucket:"rex-comments.firebasestorage.app",
-      messagingSenderId:"1029650433934",
-      appId:"1:1029650433934:web:70845c895a24fb64f406df"
-    });
-    const db = firebase.firestore();
-    const col = db.collection('comments');
-
-    // Dark mode
-    const tb = document.getElementById('themeBtn');
-    const st = localStorage.getItem('theme')||'light';
-    document.documentElement.setAttribute('data-theme',st);
-    tb.textContent = st==='dark'?'☀️ Light':'🌙 Dark';
-    tb.addEventListener('click',()=>{
-      const c=document.documentElement.getAttribute('data-theme');
-      const n=c==='dark'?'light':'dark';
-      document.documentElement.setAttribute('data-theme',n);
-      localStorage.setItem('theme',n);
-      tb.textContent=n==='dark'?'☀️ Light':'🌙 Dark';
+    // ── DARK MODE ──
+    const btn = document.getElementById('themeBtn');
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    btn.textContent = saved === 'dark' ? '☀️ Light' : '🌙 Dark';
+    btn.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      btn.textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
     });
 
-    // Scroll reveal
-    new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1})
-      .observe && document.querySelectorAll('.reveal').forEach(el=>
-        new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1}).observe(el)
-      );
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Skill bars
-    document.querySelectorAll('.skill-card').forEach(c=>
-      new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const b=e.target.querySelector('.skill-level-bar');if(b)b.style.width=b.dataset.width+'%'}}),{threshold:.4}).observe(c)
-    );
+    // ── SKILL BARS ──
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const bar = e.target.querySelector('.skill-level-bar');
+          if (bar) bar.style.width = bar.dataset.width + '%';
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.skill-card').forEach(c => barObserver.observe(c));
 
-    // Curse filter
-    const BAD = ['fuck','shit','bitch','bastard','cunt','pussy','piss','cock','whore','slut','fag','nigga','nigger','motherfucker','asshole','bullshit'];
-    const hasCurse = t => { const l=t.toLowerCase().replace(/[^a-z0-9\s]/g,''); return BAD.some(w=>l.includes(w)); };
-
-    // Post comment
-    document.getElementById('commentBtn').addEventListener('click', async ()=>{
-      const name = document.getElementById('commenterName').value.trim();
-      const msg  = document.getElementById('commenterMsg').value.trim();
-      const statusEl = document.getElementById('statusMsg');
-      if(!name||!msg){ statusEl.textContent='Please fill in your name and comment!'; statusEl.style.color='var(--accent)'; statusEl.style.display='block'; return; }
-      if(hasCurse(name)||hasCurse(msg)){ document.getElementById('cursePopup').classList.add('active'); return; }
-      const btn = document.getElementById('commentBtn');
-      btn.disabled=true; btn.textContent='Posting...'; statusEl.style.display='none';
-      try {
-        await col.add({ name, msg, time: firebase.firestore.FieldValue.serverTimestamp() });
-        document.getElementById('commenterName').value='';
-        document.getElementById('commenterMsg').value='';
-        document.getElementById('successPopup').classList.add('active');
-      } catch(e) {
-        statusEl.textContent='Failed to post. Check Firestore rules or try again.';
-        statusEl.style.color='var(--accent)'; statusEl.style.display='block';
-        console.error(e);
-      } finally { btn.disabled=false; btn.textContent='Post Comment →'; }
-    });
-
-    // Admin
-    const PASS='Zayed252'; let unlocked=false;
-    document.getElementById('adminToggle').addEventListener('click',()=>{
-      if(unlocked){ const p=document.getElementById('adminPanel'); p.style.display=p.style.display==='none'?'block':'none'; }
-      else { const b=document.getElementById('adminBox'); b.style.display=b.style.display==='none'?'block':'none'; }
-    });
-    document.getElementById('adminLoginBtn').addEventListener('click',()=>{
-      if(document.getElementById('adminPass').value===PASS){
-        unlocked=true;
-        document.getElementById('adminBox').style.display='none';
-        document.getElementById('adminErr').style.display='none';
-        document.getElementById('adminPanel').style.display='block';
-        loadComments();
-      } else { document.getElementById('adminErr').style.display='block'; document.getElementById('adminPass').value=''; }
-    });
-    document.getElementById('adminPass').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('adminLoginBtn').click(); });
-
-    function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-    function loadComments(){
-      const loadEl=document.getElementById('loadingMsg');
-      const noEl=document.getElementById('noComments');
-      const listEl=document.getElementById('commentsList');
-      loadEl.style.display='block'; noEl.style.display='none'; listEl.innerHTML='';
-      col.orderBy('time','desc').onSnapshot(snap=>{
-        loadEl.style.display='none'; listEl.innerHTML='';
-        if(snap.empty){ noEl.style.display='block'; return; }
-        noEl.style.display='none';
-        snap.forEach(doc=>{
-          const d=doc.data();
-          const t=d.time?new Date(d.time.seconds*1000).toLocaleString():'Just now';
-          const el=document.createElement('div');
-          el.className='comment-item';
-          el.innerHTML=`<div class="comment-meta"><span class="comment-name">${escHtml(d.name)}</span><div style="display:flex;align-items:center;gap:.4rem"><span class="comment-time">${t}</span><button class="comment-delete" onclick="delComment('${doc.id}')">✕</button></div></div><div class="comment-text">${escHtml(d.msg)}</div>`;
-          listEl.appendChild(el);
-        });
-      },err=>{ loadEl.textContent='Error: '+err.message; console.error(err); });
+    // ── CURSE FILTER ──
+    const curseWords = ['fuck','shit','ass','bitch','bastard','cunt','dick','pussy','damn','hell','crap','piss','cock','whore','slut','fag','nigga','nigger','motherfucker','asshole','bullshit'];
+    function hasCurse(text) {
+      const lower = text.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+      return curseWords.some(w => lower.split(/\s+/).includes(w) || lower.includes(w));
     }
 
-    async function delComment(id){ if(confirm('Delete this comment?')) await col.doc(id).delete().catch(console.error); }
+    // ── COMMENT SYSTEM ──
+    const ADMIN_PASS = 'Zayed252';
+    const STORAGE_KEY = 'rex_comments';
 
-    document.getElementById('clearAllBtn').addEventListener('click', async ()=>{
-      if(!confirm('Delete ALL comments? Cannot be undone.')) return;
-      const snap=await col.get();
-      const batch=db.batch();
-      snap.forEach(d=>batch.delete(d.ref));
-      await batch.commit().catch(console.error);
+    function getComments() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+    }
+    function saveComments(arr) { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+    document.getElementById('commentBtn').addEventListener('click', () => {
+      const name = document.getElementById('commenterName').value.trim();
+      const msg = document.getElementById('commenterMsg').value.trim();
+      if (!name || !msg) { alert('Please fill in your name and comment!'); return; }
+      if (hasCurse(name) || hasCurse(msg)) {
+        document.getElementById('cursePopup').classList.add('active');
+        return;
+      }
+      const comments = getComments();
+      comments.push({ name, msg, time: new Date().toLocaleString() });
+      saveComments(comments);
+      document.getElementById('commenterName').value = '';
+      document.getElementById('commenterMsg').value = '';
+      document.getElementById('commentSuccessPopup').classList.add('active');
+    });
+
+    // ── ADMIN TOGGLE ──
+    let adminLoginVisible = false;
+    document.getElementById('adminToggleLink').addEventListener('click', () => {
+      adminLoginVisible = !adminLoginVisible;
+      document.getElementById('adminLogin').style.display = adminLoginVisible ? 'block' : 'none';
+      document.getElementById('adminPanel').style.display = 'none';
+    });
+
+    document.getElementById('adminLoginBtn').addEventListener('click', () => {
+      const pass = document.getElementById('adminPass').value;
+      if (pass === ADMIN_PASS) {
+        document.getElementById('adminLogin').style.display = 'none';
+        renderAdminPanel();
+        document.getElementById('adminPanel').style.display = 'block';
+        document.getElementById('adminErr').style.display = 'none';
+      } else {
+        document.getElementById('adminErr').style.display = 'block';
+        document.getElementById('adminPass').value = '';
+      }
+    });
+
+    function renderAdminPanel() {
+      const comments = getComments();
+      const list = document.getElementById('commentsList');
+      const none = document.getElementById('noComments');
+      list.innerHTML = '';
+      if (comments.length === 0) {
+        none.style.display = 'block';
+        list.style.display = 'none';
+      } else {
+        none.style.display = 'none';
+        list.style.display = 'flex';
+        comments.slice().reverse().forEach((c, i) => {
+          const el = document.createElement('div');
+          el.style.cssText = 'background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:1rem;font-size:.88rem';
+          el.innerHTML = `<div style="display:flex;justify-content:space-between;margin-bottom:.35rem"><strong style="color:var(--ink)">${c.name}</strong><span style="font-size:.72rem;color:var(--ink-muted)">${c.time}</span></div><div style="color:var(--ink-muted);font-weight:300;line-height:1.6">${c.msg}</div>`;
+          list.appendChild(el);
+        });
+      }
+    }
+
+    document.getElementById('clearComments').addEventListener('click', () => {
+      if (confirm('Delete all comments?')) { saveComments([]); renderAdminPanel(); }
+    });
+
+    document.getElementById('adminPass').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('adminLoginBtn').click();
     });
   </script>
 </body>
