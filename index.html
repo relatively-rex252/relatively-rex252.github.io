@@ -123,7 +123,6 @@
     .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
     .btn-outline:hover { border-color: var(--ink); }
 
-    /* floating orb animation */
     .hero-orb {
       position: absolute; right: 0; top: 50%; transform: translateY(-50%);
       width: 340px; height: 340px; border-radius: 50%;
@@ -258,50 +257,6 @@
     }
     .social-link:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
     .social-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
-
-    /* Contact form */
-    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-    .form-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
-    .form-input, .form-textarea {
-      background: var(--card); border: 1px solid var(--border);
-      color: var(--ink); font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem; padding: 0.75rem 1rem; border-radius: 3px;
-      transition: border-color 0.2s, background 0.3s; outline: none; width: 100%;
-    }
-    .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
-    .form-textarea { resize: vertical; min-height: 130px; }
-    .form-submit {
-      background: var(--ink); color: var(--bg); border: 1px solid var(--ink);
-      padding: 0.75rem 1.6rem; font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
-      text-transform: uppercase; border-radius: 3px; cursor: pointer;
-      transition: all 0.2s; align-self: flex-start;
-    }
-    .form-submit:hover { background: var(--accent); border-color: var(--accent); }
-
-    /* Popups */
-    .popup-overlay {
-      display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
-      align-items: center; justify-content: center;
-    }
-    .popup-overlay.active { display: flex; }
-    .popup-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 8px; padding: 2.5rem; max-width: 420px; width: 90%;
-      text-align: center; position: relative;
-    }
-    .popup-emoji { font-size: 3rem; margin-bottom: 1rem; }
-    .popup-title { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: 0.75rem; }
-    .popup-msg { font-size: 0.93rem; color: var(--ink-muted); font-weight: 300; line-height: 1.7; margin-bottom: 1.5rem; }
-    .popup-close {
-      background: var(--ink); color: var(--bg); border: none;
-      padding: 0.65rem 1.5rem; border-radius: 3px; font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
-      text-transform: uppercase; cursor: pointer; transition: background 0.2s;
-    }
-    .popup-close:hover { background: var(--accent); }
 
     /* ── FOOTER ── */
     footer {
@@ -516,7 +471,6 @@
       <div class="section-label reveal">Contact</div>
       <h2 class="contact-heading reveal">Let's connect<br>and <em>build something.</em></h2>
       <div class="contact-grid reveal">
-        <!-- Social links -->
         <div class="social-links">
           <a href="https://github.com/relatively-rex252" target="_blank" class="social-link">
             <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -535,8 +489,9 @@
             Email
           </a>
         </div>
-
-
+      </div>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <hr class="divider"/>
@@ -544,8 +499,6 @@
     <span class="footer-name">Sheikh Zayed</span>
     <span class="footer-copy">© Built with care and passion · 2026</span>
   </footer>
-
-
 
   <script>
     // ── DARK MODE ──
@@ -577,5 +530,6 @@
       });
     }, { threshold: 0.4 });
     document.querySelectorAll('.skill-card').forEach(c => barObserver.observe(c));
+  </script>
 </body>
 </html>
