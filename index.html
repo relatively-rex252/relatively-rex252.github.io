@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sheikh Zayed — Rex</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f5f2;
+      --bg2: #efecea;
+      --ink: #1a1814;
+      --ink-muted: #6b6760;
+      --accent: #c8502a;
+      --accent2: #e8673f;
+      --border: #e2dfd9;
+      --card: #fff;
+      --shadow: rgba(0,0,0,0.06);
+      --circuit: #c8502a;
+      --circuit-glow: rgba(200,80,42,0.4);
+    }
+    [data-theme="dark"] {
+      --bg: #0f0e0c;
+      --bg2: #1a1916;
+      --ink: #e8e4de;
+      --ink-muted: #8a8580;
+      --accent: #e8673f;
+      --accent2: #c8502a;
+      --border: #2a2826;
+      --card: #1a1916;
+      --shadow: rgba(0,0,0,0.3);
+      --circuit: #e8673f;
+      --circuit-glow: rgba(232,103,63,0.5);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ─── INTRO OVERLAY ─── */
+    #intro-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #0a0908;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    #intro-overlay.done { animation: overlayFade 0.6s 0.2s forwards; pointer-events: none; }
+    @keyframes overlayFade { to { opacity: 0; visibility: hidden; } }
+
+    #intro-canvas { position: absolute; inset: 0; }
+
+    .intro-text-wrap {
+      position: relative; z-index: 2;
+      text-align: center; pointer-events: none;
+    }
+    .intro-label {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--circuit); font-family: 'Share Tech Mono', monospace;
+      opacity: 0;
+    }
+    .intro-label.show { animation: fadeInUp 0.5s forwards; }
+
+    .intro-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      color: #f0ede8;
+      line-height: 1;
+      margin: 0.3rem 0;
+    }
+    .intro-name .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.1s, transform 0.3s;
+    }
+    .intro-name .char.space { width: 0.35em; }
+    .intro-name .char.visible { opacity: 1; transform: none; }
+
+    .intro-tag-line {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem; letter-spacing: 0.08em;
+      color: #8a8580; margin-top: 0.6rem;
+      opacity: 0;
+    }
+    .intro-tag-line.show { animation: fadeInUp 0.5s 0.3s forwards; }
+
+    .solder-spark {
+      position: absolute; width: 6px; height: 6px;
+      border-radius: 50%; pointer-events: none;
+      animation: sparkBurst 0.4s forwards;
+    }
+    @keyframes sparkBurst {
+      0%   { transform: scale(0); opacity: 1; }
+      60%  { transform: scale(2.5); opacity: 0.8; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ─── READOUT STRIP ─── */
+    .readout-strip {
+      position: absolute; bottom: 2.5rem;
+      left: 50%; transform: translateX(-50%);
+      display: flex; gap: 2rem; z-index: 2;
+    }
+    .readout-item {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem; color: #4a4844;
+      text-align: center;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .readout-item.show { opacity: 1; }
+    .readout-item span { display: block; color: var(--circuit); font-size: 1rem; font-weight: bold; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(247,245,242,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    [data-theme="dark"] nav { background: rgba(15,14,12,0.88); }
+    .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--ink); text-decoration: none; letter-spacing: 0.01em; }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .theme-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--ink); padding: 0.4rem 0.9rem;
+      border-radius: 20px; font-size: 0.78rem; font-weight: 500;
+      cursor: pointer; letter-spacing: 0.05em;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 8rem 3rem 4rem; max-width: 1100px;
+      margin: 0 auto; position: relative;
+    }
+    .hero-content { max-width: 700px; flex: 1; }
+    .hero-tag {
+      display: inline-block; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 0.28rem 0.8rem; border-radius: 2px; margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero-name-row {
+      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+      margin-bottom: 0.4rem;
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05; letter-spacing: -0.02em;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+
+    /* ─── CLOCK ─── */
+    .hero-clock {
+      display: flex; flex-direction: column; align-items: center;
+      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+      flex-shrink: 0;
+    }
+    .clock-face {
+      position: relative; width: 72px; height: 72px;
+    }
+    .clock-face svg { width: 100%; height: 100%; }
+    .clock-digital {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem; color: var(--ink-muted);
+      letter-spacing: 0.05em; margin-top: 0.35rem; text-align: center;
+      line-height: 1.4;
+    }
+    .clock-date { font-size: 0.58rem; color: var(--accent); }
+
+    .hero-alias { display: block; font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 300; color: var(--ink-muted); letter-spacing: 0.06em; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s 0.35s forwards; }
+    .hero-bio { font-size: 1.08rem; font-weight: 300; color: var(--ink-muted); max-width: 520px; line-height: 1.8; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.45s forwards; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.6rem; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none; border-radius: 3px; transition: all 0.2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--ink); }
+
+    .hero-orb { position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle at 40% 40%, var(--accent2), transparent 70%); opacity: 0.12; filter: blur(60px); animation: orbFloat 6s ease-in-out infinite; pointer-events: none; }
+    @keyframes orbFloat { 0%, 100% { transform: translateY(-50%) scale(1); } 50% { transform: translateY(-55%) scale(1.08); } }
+    .hero-scroll { position: absolute; bottom: 2.5rem; left: 3rem; display: flex; align-items: center; gap: 0.75rem; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); opacity: 0; animation: fadeUp 0.6s 0.9s forwards; }
+    .hero-scroll::before { content: ''; display: block; width: 36px; height: 1px; background: var(--ink-muted); }
+
+    /* ─── SECTIONS ─── */
+    section { max-width: 1100px; margin: 0 auto; padding: 6rem 3rem; }
+    .section-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-bottom: 3rem; }
+    hr.divider { border: none; border-top: 1px solid var(--border); max-width: 1100px; margin: 0 auto; }
+
+    /* ─── ABOUT ─── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .about-text p { font-size: 1.03rem; font-weight: 300; color: var(--ink-muted); line-height: 1.85; margin-bottom: 1.2rem; }
+    .about-text p strong { color: var(--ink); font-weight: 500; }
+    .about-facts { display: flex; flex-direction: column; gap: 1.4rem; }
+    .fact { padding: 1.4rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; transition: background 0.3s, border-color 0.3s; }
+    .fact-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+    .fact-value { font-size: 0.93rem; color: var(--ink); }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--bg2); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+    .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; transition: transform 0.2s, border-color 0.2s; }
+    .skill-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .skill-icon { font-size: 1.6rem; margin-bottom: 0.75rem; line-height: 1; }
+    /* SVG skill icons */
+    .skill-icon svg { width: 32px; height: 32px; }
+    .skill-name { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .skill-level { height: 3px; background: var(--border); border-radius: 2px; margin-top: 0.75rem; overflow: hidden; }
+    .skill-level-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 1s ease; width: 0; }
+    .skill-desc { font-size: 0.82rem; color: var(--ink-muted); font-weight: 300; margin-top: 0.4rem; }
+
+    /* ─── PROJECTS ─── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+    .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 2rem; display: flex; flex-direction: column; gap: 1rem; transition: border-color 0.2s, transform 0.2s; text-decoration: none; color: inherit; position: relative; overflow: hidden; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent); transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s; }
+    .project-card:hover { border-color: var(--ink); transform: translateY(-3px); }
+    .project-card:hover::before { transform: scaleY(1); }
+    .project-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+    .project-icon { font-size: 1.5rem; }
+    .project-tag { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 0.18rem 0.55rem; border-radius: 2px; }
+    .project-name { font-family: 'DM Serif Display', serif; font-size: 1.4rem; line-height: 1.2; }
+    .project-abbr { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); margin-top: 0.15rem; }
+    .project-desc { font-size: 0.9rem; font-weight: 300; color: var(--ink-muted); line-height: 1.7; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: auto; }
+    .tech-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); background: var(--bg); border: 1px solid var(--border); padding: 0.18rem 0.55rem; border-radius: 2px; }
+    .project-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.76rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
+    .project-footer svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* ─── INTERESTS ─── */
+    .interests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+    .interest-card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 2rem; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.75rem; transition: all 0.25s; position: relative; overflow: hidden; }
+    .interest-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 30px var(--shadow); }
+    .interest-emoji { font-size: 2.2rem; }
+    .interest-name { font-family: 'DM Serif Display', serif; font-size: 1.35rem; }
+    .interest-desc { font-size: 0.88rem; font-weight: 300; color: var(--ink-muted); line-height: 1.65; flex: 1; }
+    .interest-link { font-size: 0.74rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-top: 0.5rem; }
+
+    /* ─── CONTACT ─── */
+    .contact-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 3rem; }
+    .contact-heading { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; max-width: 600px; }
+    .contact-heading em { font-style: italic; color: var(--accent); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; width: 100%; }
+    .social-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .social-link { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1.4rem; background: var(--card); border: 1px solid var(--border); border-radius: 3px; font-size: 0.85rem; font-weight: 500; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; transition: all 0.2s; }
+    .social-link:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .social-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
+    /* ─── FOOTER ─── */
+    footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; }
+    .footer-name { font-family: 'DM Serif Display', serif; font-size: 0.95rem; }
+    .footer-copy { font-size: 0.76rem; color: var(--ink-muted); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links .hide-mobile { display: none; }
+      #hero { padding: 7rem 1.25rem 3rem; }
+      section { padding: 4rem 1.25rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .hero-orb { display: none; }
+      .hero-name-row { gap: 1rem; }
+      .clock-face { width: 56px; height: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ INTRO OVERLAY ══════════════ -->
+  <div id="intro-overlay">
+    <canvas id="intro-canvas"></canvas>
+
+    <div class="intro-text-wrap">
+      <div class="intro-label" id="introLabel">// INITIALIZING SYSTEM</div>
+      <div class="intro-name" id="introName" aria-label="Sheikh Zayed"></div>
+      <div class="intro-tag-line" id="introTag">EEE Student · Builder · Enthusiast</div>
+    </div>
+
+    <div class="readout-strip">
+      <div class="readout-item" id="r-volt"><span id="rv">0.0</span>VOLTAGE (V)</div>
+      <div class="readout-item" id="r-res"><span id="rr">∞</span>RESISTANCE (Ω)</div>
+      <div class="readout-item" id="r-freq"><span id="rf">0</span>FREQ (Hz)</div>
+      <div class="readout-item" id="r-temp"><span id="rt">24°</span>TEMP (°C)</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <nav>
+    <a href="#hero" class="nav-logo">Rex.</a>
+    <ul class="nav-links">
+      <li class="hide-mobile"><a href="#about">About</a></li>
+      <li class="hide-mobile"><a href="#skills">Skills</a></li>
+      <li class="hide-mobile"><a href="#projects">Projects</a></li>
+      <li><a href="interests.html">Interests</a></li>
+      <li class="hide-mobile"><a href="#contact">Contact</a></li>
+      <li><button class="theme-btn" id="themeBtn">🌙 Dark</button></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <div id="hero">
+    <div class="hero-content">
+      <span class="hero-tag">EEE Student · Builder · Enthusiast</span>
+
+      <div class="hero-name-row">
+        <h1>Sheikh Zayed</h1>
+        <!-- LIVE CLOCK -->
+        <div class="hero-clock" id="heroClock">
+          <div class="clock-face">
+            <svg id="clockSvg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+              <!-- PCB-style tick marks -->
+              <circle cx="36" cy="36" r="34" fill="none" stroke="var(--border)" stroke-width="1"/>
+              <circle cx="36" cy="36" r="34" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 20.4" stroke-dashoffset="-1.5" opacity="0.4"/>
+              <!-- Center dot -->
+              <circle cx="36" cy="36" r="2.5" fill="var(--accent)" id="clockCenter"/>
+              <!-- Hands drawn by JS -->
+              <line id="hourHand"   x1="36" y1="36" x2="36" y2="16" stroke="var(--ink)"   stroke-width="2.5" stroke-linecap="round"/>
+              <line id="minuteHand" x1="36" y1="36" x2="36" y2="10" stroke="var(--ink)"   stroke-width="1.5" stroke-linecap="round"/>
+              <line id="secondHand" x1="36" y1="39" x2="36" y2="8"  stroke="var(--accent)" stroke-width="1"   stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="clock-digital">
+            <div id="clockTime">00:00:00</div>
+            <div class="clock-date" id="clockDate">SAT, 17 MAY</div>
+          </div>
+        </div>
+      </div>
+
+      <span class="hero-alias">( aka Rex )</span>
+      <p class="hero-bio">Electrical & Electronics Engineering student at North South University, Dhaka. Curious about how things work — from circuits to code. Building, learning, and figuring it out one project at a time.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-orb"></div>
+    <div class="hero-scroll">Scroll to explore</div>
+  </div>
+
+  <hr class="divider"/>
+
+  <!-- ══════════════ ABOUT ══════════════ -->
+  <section id="about">
+    <p class="section-label reveal">About</p>
+    <h2 class="section-title reveal">A bit about me.</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm <strong>Sheikh Zayed</strong> — most people call me Rex. I'm a first-year EEE student at North South University, Dhaka, with a genuine passion for engineering, technology, and understanding the systems that power the world around us.</p>
+        <p>I grew up in Jashore, Bangladesh, where I developed a curiosity for how things work — mechanical, electrical, and everything in between. These days I'm channeling that into my studies in circuits, programming, and beyond.</p>
+        <p>Outside academics, I'm into aviation, mechanics, football, and gaming. Always building something, always learning.</p>
+      </div>
+      <div class="about-facts reveal">
+        <div class="fact"><div class="fact-label">Currently</div><div class="fact-value">B.Sc. in EEE — North South University, Dhaka</div></div>
+        <div class="fact"><div class="fact-label">Learning</div><div class="fact-value">Circuits · C Programming · Python · Calculus</div></div>
+        <div class="fact"><div class="fact-label">From</div><div class="fact-value">Jashore → Dhaka, Bangladesh</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ══════════════ SKILLS ══════════════ -->
+  <section id="skills">
+    <p class="section-label reveal">Toolkit</p>
+    <h2 class="section-title reveal">Skills.</h2>
+    <div class="skills-grid">
+
+      <!-- Circuit Analysis -->
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 16h5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M25 16h5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+            <rect x="7" y="11" width="4" height="10" rx="1" stroke="var(--accent)" stroke-width="1.5"/>
+            <rect x="13" y="11" width="4" height="10" rx="1" stroke="var(--accent)" stroke-width="1.5"/>
+            <rect x="19" y="11" width="4" height="10" rx="1" stroke="var(--accent)" stroke-width="1.5"/>
+            <path d="M11 16h2M17 16h2" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="16" cy="6" r="2" stroke="var(--ink-muted)" stroke-width="1.2"/>
+            <path d="M16 8v5" stroke="var(--ink-muted)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="skill-name">Circuit Analysis</div>
+        <div class="skill-desc">AC/DC circuits, Kirchhoff's laws, mesh &amp; nodal analysis</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="72"></div></div>
+      </div>
+
+      <!-- C Programming -->
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="28" height="24" rx="3" stroke="var(--accent)" stroke-width="1.5"/>
+            <path d="M6 8h20" stroke="var(--border)" stroke-width="1"/>
+            <circle cx="8" cy="6" r="1" fill="#e74c3c"/>
+            <circle cx="12" cy="6" r="1" fill="#f39c12"/>
+            <circle cx="16" cy="6" r="1" fill="#2ecc71"/>
+            <path d="M8 14l4 4-4 4" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 22h6" stroke="var(--ink-muted)" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M14.5 18.5C13.5 17.5 12 17 12 18s1.5 2 1.5 3-1.5 1.5-1.5 1.5" stroke="var(--ink-muted)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="skill-name">C Programming</div>
+        <div class="skill-desc">Functions, loops, file I/O, data structures, terminal apps</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="65"></div></div>
+      </div>
+
+      <!-- Python -->
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 3C10 3 8.5 5.5 8.5 8v3h7.5v1H7C4.5 12 3 13.5 3 17s1.5 5.5 4 6l1 .1V20h1.5v3h7V20h1v3h1l1-.1c2.5-.5 4-2.5 4-6V15H12.5v-1H23V8c0-2.5-1.5-5-7-5z" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round"/>
+            <circle cx="13" cy="8.5" r="1.2" fill="var(--accent)"/>
+            <circle cx="19" cy="23.5" r="1.2" fill="var(--ink-muted)"/>
+          </svg>
+        </div>
+        <div class="skill-name">Python</div>
+        <div class="skill-desc">Scripting, automation, voice assistants, general purpose</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="60"></div></div>
+      </div>
+
+      <!-- Mathematics -->
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Integral -->
+            <path d="M19 5c-1 0-2 1-2 2v18c0 1 1 2 2 2" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <!-- Delta -->
+            <path d="M5 25L10 9l5 16z" stroke="var(--ink-muted)" stroke-width="1.4" stroke-linejoin="round"/>
+            <!-- Sine wave -->
+            <path d="M22 14q1.5-4 3-4t3 4t3-4" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="skill-name">Mathematics</div>
+        <div class="skill-desc">Calculus, linear algebra, differential equations</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="68"></div></div>
+      </div>
+
+      <!-- Problem Solving -->
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Gear -->
+            <circle cx="16" cy="16" r="4" stroke="var(--accent)" stroke-width="1.5"/>
+            <path d="M16 4v4M16 24v4M4 16h4M24 16h4" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M7.76 7.76l2.83 2.83M21.41 21.41l2.83 2.83M7.76 24.24l2.83-2.83M21.41 10.59l2.83-2.83" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Lightbulb hint -->
+            <circle cx="26" cy="6" r="3" stroke="var(--ink-muted)" stroke-width="1.2"/>
+            <path d="M26 9.5v1.5" stroke="var(--ink-muted)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="skill-name">Problem Solving</div>
+        <div class="skill-desc">Logical thinking, debugging, breaking down complex systems</div>
+        <div class="skill-level"><div class="skill-level-bar" data-width="80"></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ══════════════ PROJECTS ══════════════ -->
+  <section id="projects">
+    <p class="section-label reveal">Work</p>
+    <h2 class="section-title reveal">Projects.</h2>
+    <div class="projects-grid">
+      <a href="https://github.com/relatively-rex252/SPECTER" target="_blank" class="project-card reveal">
+        <div class="project-card-top">
+          <div class="project-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2C8.5 2 5 5.8 5 10v8l-2 3h22l-2-3v-8C23 5.8 19.5 2 14 2z" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M10 18c0 2.2 1.8 4 4 4s4-1.8 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M11 12l2 2 4-4" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="project-tag">Voice AI</span>
+        </div>
+        <div>
+          <div class="project-name">SPECTER</div>
+          <div class="project-abbr">Smart Personal Execution Command Technology Enhanced Responder</div>
+        </div>
+        <p class="project-desc">A voice-activated personal assistant for Windows. Say the wake word and SPECTER opens apps, controls system settings, searches the web — all by voice.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Speech Recognition</span>
+          <span class="tech-tag">Windows</span>
+          <span class="tech-tag">pyttsx3</span>
+        </div>
+        <div class="project-footer">
+          <span>View on GitHub</span>
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        </div>
+      </a>
+      <div class="project-card reveal" style="transition-delay:0.1s">
+        <div class="project-card-top">
+          <div class="project-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="20" height="20" rx="3" stroke="var(--ink-muted)" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <path d="M10 14h8M14 10v8" stroke="var(--ink-muted)" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="project-tag">Coming Soon</span>
+        </div>
+        <div><div class="project-name">Next Project</div></div>
+        <p class="project-desc">Currently in the works. Stay tuned — something interesting is on the way.</p>
+        <div class="tech-tags"><span class="tech-tag">TBD</span></div>
+        <div class="project-footer"><span>In progress</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ══════════════ INTERESTS ══════════════ -->
+  <section id="interests">
+    <p class="section-label reveal">Passions</p>
+    <h2 class="section-title reveal">Interests.</h2>
+    <div class="interests-grid">
+      <a href="interest-gaming.html" class="interest-card reveal">
+        <div class="interest-emoji">🎮</div>
+        <div class="interest-name">Gaming</div>
+        <p class="interest-desc">From mobile battlegrounds to PC war simulations — a deep love for games across every platform and genre.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="interest-sports.html" class="interest-card reveal" style="transition-delay:0.1s">
+        <div class="interest-emoji">⚽</div>
+        <div class="interest-name">Sports</div>
+        <p class="interest-desc">Football is life. A Madridista through and through, with a soft spot for the beautiful game's greatest players.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="interest-robotics.html" class="interest-card reveal" style="transition-delay:0.2s">
+        <div class="interest-emoji">🤖</div>
+        <div class="interest-name">Robotics</div>
+        <p class="interest-desc">Drones, autonomous bots, and microcontroller projects — fascinated by machines that think and move.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+      <a href="interest-aviation.html" class="interest-card reveal" style="transition-delay:0.3s">
+        <div class="interest-emoji">✈️</div>
+        <div class="interest-name">Aviation</div>
+        <p class="interest-desc">The mechanics of flight, legendary aircraft, and the engineering that lets humans conquer the sky.</p>
+        <span class="interest-link">Explore →</span>
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ══════════════ CONTACT ══════════════ -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="section-label reveal">Contact</div>
+      <h2 class="contact-heading reveal">Let's connect<br>and <em>build something.</em></h2>
+      <div class="contact-grid reveal">
+        <div class="social-links">
+          <a href="https://github.com/relatively-rex252" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/sheikh-zayed125252" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM3.56 20.45h3.56V9H3.56v11.45zM22.22 0H1.77C.79 0 .77 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.21 24 24 23.23 24 22.27V1.73C24 .77 23.21 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://instagram.com/relatively_rex" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311C2.499 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 1.965 2.063.575 3.453.059 5.295-.026 7.15-.014 8.43 0 8.84 0 12c0 3.16.014 3.57.072 4.85.085 1.855.601 3.697 1.991 5.087 1.39 1.39 3.232 1.906 5.087 1.991C8.43 23.986 8.84 24 12 24c3.16 0 3.57-.014 4.85-.072 1.855-.085 3.697-.601 5.087-1.991 1.39-1.39 1.906-3.232 1.991-5.087C23.986 15.57 24 15.16 24 12c0-3.16-.014-3.57-.072-4.85-.085-1.855-.601-3.697-1.991-5.087C20.547.573 18.705.057 16.85-.028 15.57-.014 15.16 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            Instagram
+          </a>
+          <a href="mailto:sheikhshakil3510m@gmail.com" class="social-link">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+  <footer>
+    <span class="footer-name">Sheikh Zayed</span>
+    <span class="footer-copy">© Built with care and passion · 2026</span>
+  </footer>
+
+<script>
+/* ════════════════════════════════════════
+   DARK MODE
+════════════════════════════════════════ */
+const btn = document.getElementById('themeBtn');
+const saved = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', saved);
+btn.textContent = saved === 'dark' ? '☀️ Light' : '🌙 Dark';
+btn.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  btn.textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
+});
+
+/* ════════════════════════════════════════
+   LIVE CLOCK
+════════════════════════════════════════ */
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  const pad = n => String(n).padStart(2,'0');
+
+  // Analogue hands
+  const hAngle = (h % 12) * 30 + m * 0.5;
+  const mAngle = m * 6 + s * 0.1;
+  const sAngle = s * 6;
+
+  function handEnd(cx, cy, angle, len) {
+    const rad = (angle - 90) * Math.PI / 180;
+    return { x: cx + len * Math.cos(rad), y: cy + len * Math.sin(rad) };
+  }
+  const cx = 36, cy = 36;
+  const hEnd = handEnd(cx, cy, hAngle, 14);
+  const mEnd = handEnd(cx, cy, mAngle, 20);
+  const sEnd = handEnd(cx, cy, sAngle, 22);
+  const sTail = handEnd(cx, cy, sAngle + 180, 5);
+
+  document.getElementById('hourHand').setAttribute('x2', hEnd.x);
+  document.getElementById('hourHand').setAttribute('y2', hEnd.y);
+  document.getElementById('minuteHand').setAttribute('x2', mEnd.x);
+  document.getElementById('minuteHand').setAttribute('y2', mEnd.y);
+  document.getElementById('secondHand').setAttribute('x1', sTail.x);
+  document.getElementById('secondHand').setAttribute('y1', sTail.y);
+  document.getElementById('secondHand').setAttribute('x2', sEnd.x);
+  document.getElementById('secondHand').setAttribute('y2', sEnd.y);
+
+  // Digital
+  document.getElementById('clockTime').textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+
+  const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  document.getElementById('clockDate').textContent =
+    `${days[now.getDay()]}, ${pad(now.getDate())} ${months[now.getMonth()]}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ════════════════════════════════════════
+   SCROLL REVEAL
+════════════════════════════════════════ */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ════════════════════════════════════════
+   SKILL BARS
+════════════════════════════════════════ */
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const bar = e.target.querySelector('.skill-level-bar');
+      if (bar) bar.style.width = bar.dataset.width + '%';
+    }
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('.skill-card').forEach(c => barObs.observe(c));
+
+/* ════════════════════════════════════════
+   CIRCUIT INTRO ANIMATION
+════════════════════════════════════════ */
+(function() {
+  const overlay = document.getElementById('intro-overlay');
+  const canvas  = document.getElementById('intro-canvas');
+  const ctx     = canvas.getContext('2d');
+
+  // Check skip
+  if (sessionStorage.getItem('introSeen')) {
+    overlay.style.display = 'none';
+    return;
+  }
+
+  let W, H;
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const ORANGE = '#e8673f';
+  const DIM    = '#2a2826';
+  const BRIGHT = '#f0ede8';
+
+  /* ── Circuit trace system ── */
+  const nodes = [];
+  const traces = [];
+  const components = []; // resistors, capacitors, ICs drawn on traces
+  let traceProgress = 0;
+
+  // Generate a grid-snapped PCB layout
+  const GRID = 40;
+  function snap(v) { return Math.round(v / GRID) * GRID; }
+
+  // Seed nodes around a centre cross
+  function buildCircuit() {
+    nodes.length = 0; traces.length = 0; components.length = 0;
+
+    const cx = snap(W / 2), cy = snap(H / 2);
+
+    // Main backbone traces (horizontal + vertical)
+    const backboneH = [
+      {x: cx - GRID*6, y: cy}, {x: cx - GRID*3, y: cy},
+      {x: cx - GRID*3, y: cy}, {x: cx,           y: cy},
+      {x: cx,          y: cy}, {x: cx + GRID*3,  y: cy},
+      {x: cx + GRID*3, y: cy}, {x: cx + GRID*6,  y: cy},
+    ];
+    const backboneV = [
+      {x: cx, y: cy - GRID*4}, {x: cx, y: cy - GRID*2},
+      {x: cx, y: cy - GRID*2}, {x: cx, y: cy},
+      {x: cx, y: cy},           {x: cx, y: cy + GRID*2},
+      {x: cx, y: cy + GRID*2}, {x: cx, y: cy + GRID*4},
+    ];
+
+    // Branch traces
+    const branches = [
+      {x1: cx - GRID*3, y1: cy, x2: cx - GRID*3, y2: cy - GRID*3},
+      {x1: cx - GRID*3, y1: cy, x2: cx - GRID*3, y2: cy + GRID*3},
+      {x1: cx + GRID*3, y1: cy, x2: cx + GRID*3, y2: cy - GRID*3},
+      {x1: cx + GRID*3, y1: cy, x2: cx + GRID*3, y2: cy + GRID*3},
+      {x1: cx - GRID*3, y1: cy - GRID*3, x2: cx, y2: cy - GRID*3},
+      {x1: cx, y1: cy - GRID*3, x2: cx + GRID*3, y2: cy - GRID*3},
+      {x1: cx - GRID*3, y1: cy + GRID*3, x2: cx, y2: cy + GRID*3},
+      {x1: cx, y1: cy + GRID*3, x2: cx + GRID*3, y2: cy + GRID*3},
+    ];
+
+    for (let i = 0; i < backboneH.length; i+=2)
+      traces.push({x1: backboneH[i].x, y1: backboneH[i].y, x2: backboneH[i+1].x, y2: backboneH[i+1].y, progress: 0, speed: 0.06 + Math.random()*0.04, delay: i*0.5});
+    for (let i = 0; i < backboneV.length; i+=2)
+      traces.push({x1: backboneV[i].x, y1: backboneV[i].y, x2: backboneV[i+1].x, y2: backboneV[i+1].y, progress: 0, speed: 0.05, delay: 2 + i*0.4});
+    branches.forEach((b, i) =>
+      traces.push({x1:b.x1, y1:b.y1, x2:b.x2, y2:b.y2, progress:0, speed:0.07, delay: 4 + i*0.3}));
+
+    // Junction dots
+    const junctions = [
+      {x:cx-GRID*3, y:cy}, {x:cx, y:cy}, {x:cx+GRID*3, y:cy},
+      {x:cx, y:cy-GRID*2}, {x:cx, y:cy+GRID*2},
+      {x:cx-GRID*3, y:cy-GRID*3}, {x:cx+GRID*3, y:cy-GRID*3},
+      {x:cx-GRID*3, y:cy+GRID*3}, {x:cx+GRID*3, y:cy+GRID*3},
+      {x:cx, y:cy-GRID*3}, {x:cx, y:cy+GRID*3},
+    ];
+    junctions.forEach(j => nodes.push({...j, born: false, r:3}));
+
+    // Resistors, capacitors on traces
+    components.push({type:'resistor', x: cx-GRID*4.5, y: cy, angle: 0, born: false});
+    components.push({type:'resistor', x: cx+GRID*1.5, y: cy, angle: 0, born: false});
+    components.push({type:'capacitor', x: cx, y: cy-GRID*3, angle: 90, born: false});
+    components.push({type:'capacitor', x: cx, y: cy+GRID*1, angle: 90, born: false});
+    components.push({type:'ic', x: cx-GRID*3, y: cy-GRID*3, born: false});
+    components.push({type:'ic', x: cx+GRID*3, y: cy+GRID*3, born: false});
+  }
+
+  buildCircuit();
+
+  /* ── Particles / sparks ── */
+  const sparks = [];
+  function spawnSpark(x, y) {
+    for (let i = 0; i < 6; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 1 + Math.random() * 2;
+      sparks.push({ x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, life: 1, maxLife: 1, r: 2+Math.random()*2 });
+    }
+  }
+
+  /* ── Solder dots that travel along completed traces ── */
+  const solderDots = [];
+  function spawnSolderDot(t) {
+    solderDots.push({ trace: t, pos: 0, speed: 0.008 + Math.random()*0.006, life: 1 });
+  }
+
+  /* ── AC waveform overlay ── */
+  let wavePhase = 0;
+
+  /* ── Text reveal ── */
+  const name = "Sheikh Zayed";
+  const nameEl = document.getElementById('introName');
+  nameEl.innerHTML = name.split('').map(c =>
+    c === ' ' ? '<span class="char space"> </span>' : `<span class="char">${c}</span>`
+  ).join('');
+  const chars = nameEl.querySelectorAll('.char');
+
+  let elapsed = 0; // seconds
+  let lastTime = null;
+  let introComplete = false;
+  let exitStarted = false;
+  const TOTAL_DURATION = 5.5; // seconds before fade
+
+  const PHASE_CIRCUIT    = 0;    // 0 – 2s: traces draw
+  const PHASE_POWER      = 2;    // 2 – 3s: solder dots + sparks
+  const PHASE_NAME       = 2.8;  // 2.8s: name types in
+  const PHASE_READOUT    = 3.2;  // readout meters animate
+  const PHASE_DONE       = TOTAL_DURATION;
+
+  // Animated readout values
+  const readouts = {volt:0, res:999, freq:0, temp:24};
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function drawResistor(x, y, angle) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle * Math.PI/180);
+    ctx.strokeStyle = ORANGE;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(-18, 0); ctx.lineTo(-10, 0);
+    ctx.rect(-10, -5, 20, 10);
+    ctx.moveTo(10, 0); ctx.lineTo(18, 0);
+    ctx.stroke();
+    ctx.restore();
+  }
+  function drawCapacitor(x, y, angle) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle * Math.PI/180);
+    ctx.strokeStyle = ORANGE;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(-15, 0); ctx.lineTo(-4, 0);
+    ctx.moveTo(-4, -8); ctx.lineTo(-4, 8);
+    ctx.moveTo(4, -8);  ctx.lineTo(4, 8);
+    ctx.moveTo(4, 0);   ctx.lineTo(15, 0);
+    ctx.stroke();
+    ctx.restore();
+  }
+  function drawIC(x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.strokeStyle = ORANGE;
+    ctx.fillStyle = '#1a1916';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.rect(-20, -14, 40, 28);
+    ctx.fill(); ctx.stroke();
+    // pins
+    for (let i = 0; i < 3; i++) {
+      ctx.beginPath();
+      ctx.moveTo(-20, -8 + i*8); ctx.lineTo(-28, -8 + i*8);
+      ctx.moveTo(20, -8 + i*8);  ctx.lineTo(28, -8 + i*8);
+      ctx.stroke();
+    }
+    // notch
+    ctx.beginPath();
+    ctx.arc(-20, 0, 4, Math.PI/2, -Math.PI/2);
+    ctx.stroke();
+    // chip label
+    ctx.fillStyle = ORANGE;
+    ctx.font = '7px Share Tech Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('EEE', 0, 3);
+    ctx.restore();
+  }
+
+  function draw(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    const dt = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+    elapsed += dt;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Dark PCB background texture
+    ctx.fillStyle = '#0a0908';
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle grid
+    ctx.strokeStyle = 'rgba(232,103,63,0.05)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += GRID) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += GRID) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    /* ── Phase 1: Draw circuit traces ── */
+    traces.forEach((t, ti) => {
+      const localT = Math.max(0, elapsed - t.delay);
+      if (localT <= 0) return;
+      t.progress = Math.min(1, t.progress + t.speed * (dt/0.016));
+
+      const px = t.x1 + (t.x2 - t.x1) * t.progress;
+      const py = t.y1 + (t.y2 - t.y1) * t.progress;
+
+      // Trace glow
+      ctx.shadowColor = ORANGE;
+      ctx.shadowBlur  = 8;
+      ctx.strokeStyle = ORANGE;
+      ctx.lineWidth   = 2;
+      ctx.lineCap     = 'round';
+      ctx.beginPath();
+      ctx.moveTo(t.x1, t.y1);
+      ctx.lineTo(px, py);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Dim already-drawn
+      ctx.strokeStyle = DIM;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(t.x1, t.y1);
+      ctx.lineTo(px, py);
+      ctx.stroke();
+
+      // Solder spark at tip
+      if (t.progress < 1 && t.progress > 0.01 && Math.random() < 0.15) {
+        spawnSpark(px, py);
+      }
+      if (t.progress >= 1 && !t._dotSpawned) {
+        t._dotSpawned = true;
+        spawnSolderDot(t);
+        spawnSpark(t.x2, t.y2);
+      }
+    });
+
+    /* ── Junction dots ── */
+    nodes.forEach(n => {
+      const anyTrace = traces.find(t => t.progress >= 1 && (
+        (Math.abs(t.x2 - n.x) < 2 && Math.abs(t.y2 - n.y) < 2) ||
+        (Math.abs(t.x1 - n.x) < 2 && Math.abs(t.y1 - n.y) < 2)
+      ));
+      if (!anyTrace) return;
+      ctx.shadowColor = ORANGE; ctx.shadowBlur = 10;
+      ctx.fillStyle = ORANGE;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    /* ── Components ── */
+    components.forEach(c => {
+      const traceDone = traces.some(t => t.progress >= 1 && (
+        Math.abs(t.x1 - c.x) < GRID*2 && Math.abs(t.y1 - c.y) < GRID*2
+      ));
+      if (!traceDone) return;
+      if (c.type === 'resistor') drawResistor(c.x, c.y, c.angle);
+      else if (c.type === 'capacitor') drawCapacitor(c.x, c.y, c.angle);
+      else if (c.type === 'ic') drawIC(c.x, c.y);
+    });
+
+    /* ── Solder dots ── */
+    solderDots.forEach((d, i) => {
+      d.pos += d.speed;
+      if (d.pos >= 1) { solderDots.splice(i, 1); return; }
+      const t = d.trace;
+      const x = t.x1 + (t.x2 - t.x1) * d.pos;
+      const y = t.y1 + (t.y2 - t.y1) * d.pos;
+      ctx.shadowColor = '#fff'; ctx.shadowBlur = 6;
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    /* ── Sparks ── */
+    sparks.forEach((sp, i) => {
+      sp.x += sp.vx; sp.y += sp.vy;
+      sp.vx *= 0.9; sp.vy *= 0.9;
+      sp.life -= 0.04;
+      if (sp.life <= 0) { sparks.splice(i, 1); return; }
+      ctx.globalAlpha = sp.life;
+      ctx.fillStyle = ORANGE;
+      ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.r * sp.life, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    });
+
+    /* ── AC Sine wave (top of screen) ── */
+    if (elapsed > PHASE_POWER) {
+      wavePhase += dt * 3;
+      const wave_y = H - 60;
+      const wave_amp = 20;
+      const wave_freq = 0.025;
+      ctx.strokeStyle = `rgba(232,103,63,${Math.min(1,(elapsed-PHASE_POWER)*1.5)*0.5})`;
+      ctx.lineWidth = 1.5;
+      ctx.shadowColor = ORANGE; ctx.shadowBlur = 6;
+      ctx.beginPath();
+      for (let x = 0; x < W; x++) {
+        const y = wave_y + Math.sin(x * wave_freq + wavePhase) * wave_amp;
+        if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    /* ── Readout strip animate ── */
+    if (elapsed > PHASE_READOUT) {
+      const t = Math.min(1, (elapsed - PHASE_READOUT) / 1.5);
+      document.getElementById('rv').textContent = lerp(0, 5, t).toFixed(1);
+      document.getElementById('rr').textContent = lerp(999, 47, t).toFixed(0) + 'Ω';
+      document.getElementById('rf').textContent = lerp(0, 50, t).toFixed(0);
+      document.getElementById('rt').textContent = lerp(24, 35, t).toFixed(0) + '°';
+      ['r-volt','r-res','r-freq','r-temp'].forEach(id => {
+        document.getElementById(id).classList.add('show');
+      });
+    }
+
+    /* ── Name reveal ── */
+    if (elapsed > PHASE_NAME) {
+      document.getElementById('introLabel').classList.add('show');
+      document.getElementById('introLabel').textContent = '// BOOTING: SHEIKH ZAYED v1.0';
+      const nameProgress = Math.min(1, (elapsed - PHASE_NAME) / 1.2);
+      const charsToShow = Math.floor(nameProgress * chars.length);
+      chars.forEach((c, i) => {
+        if (i < charsToShow) c.classList.add('visible');
+      });
+      if (nameProgress >= 1) {
+        document.getElementById('introTag').classList.add('show');
+      }
+    }
+
+    /* ── Voltage flash effect ── */
+    if (elapsed > PHASE_POWER && elapsed < PHASE_POWER + 0.3) {
+      const flashAlpha = Math.max(0, 0.25 - (elapsed - PHASE_POWER) * 0.8);
+      ctx.fillStyle = `rgba(232,103,63,${flashAlpha})`;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    /* ── Exit ── */
+    if (elapsed >= PHASE_DONE && !exitStarted) {
+      exitStarted = true;
+      sessionStorage.setItem('introSeen', '1');
+      overlay.classList.add('done');
+      setTimeout(() => { overlay.style.display = 'none'; }, 900);
+    }
+
+    if (!exitStarted) requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+
+  // Allow skip on click/keypress
+  function skipIntro() {
+    if (exitStarted) return;
+    exitStarted = true;
+    elapsed = PHASE_DONE + 1;
+    sessionStorage.setItem('introSeen', '1');
+    overlay.classList.add('done');
+    setTimeout(() => { overlay.style.display = 'none'; }, 700);
+  }
+  overlay.addEventListener('click', skipIntro);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' || e.key === ' ') skipIntro(); });
+
+})();
+</script>
+</body>
+</html>
