@@ -1023,7 +1023,7 @@ document.querySelectorAll('.skill-card').forEach(c => barObs.observe(c));
     /* ── Name reveal ── */
     if (elapsed > PHASE_NAME) {
       document.getElementById('introLabel').classList.add('show');
-      document.getElementById('introLabel').textContent = '// BOOTING: SHEIKH ZAYED v1.0';
+      document.getElementById('introLabel').textContent = '// BOOTING: SHEIKH ZAYED v1.26.15';
       const nameProgress = Math.min(1, (elapsed - PHASE_NAME) / 1.2);
       const charsToShow = Math.floor(nameProgress * chars.length);
       chars.forEach((c, i) => {
