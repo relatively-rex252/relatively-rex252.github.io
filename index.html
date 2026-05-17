@@ -1134,7 +1134,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       /* Name */
       if(elapsed>PHASE_NAME){
         document.getElementById('introLabel').classList.add('show');
-        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.0';
+        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.19';
         const np=Math.min(1,(elapsed-PHASE_NAME)/1.2);
         chars.forEach((c,i)=>{ if(i<Math.floor(np*chars.length)) c.classList.add('visible'); });
         if(np>=1) document.getElementById('introTag').classList.add('show');
