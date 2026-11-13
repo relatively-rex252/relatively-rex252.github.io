@@ -701,7 +701,7 @@
             <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311C2.499 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 1.965 2.063.575 3.453.059 5.295-.026 7.15-.014 8.43 0 8.84 0 12c0 3.16.014 3.57.072 4.85.085 1.855.601 3.697 1.991 5.087 1.39 1.39 3.232 1.906 5.087 1.991C8.43 23.986 8.84 24 12 24c3.16 0 3.57-.014 4.85-.072 1.855-.085 3.697-.601 5.087-1.991 1.39-1.39 1.906-3.232 1.991-5.087C23.986 15.57 24 15.16 24 12c0-3.16-.014-3.57-.072-4.85-.085-1.855-.601-3.697-1.991-5.087C20.547.573 18.705.057 16.85-.028 15.57-.014 15.16 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
             Instagram
           </a>
-          <a href="mailto:sheikhshakil3510m@gmail.com" class="social-link">
+          <a href="mailto:sheikhshakil3510m@gmail.com" id="emailLink" class="social-link">
             <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
             Email
           </a>
@@ -1043,7 +1043,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       /* Name */
       if(elapsed>PHASE_NAME){
         document.getElementById('introLabel').classList.add('show');
-        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.47';
+        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.48';
         const np=Math.min(1,(elapsed-PHASE_NAME)/1.2);
         chars.forEach((c,i)=>{ if(i<Math.floor(np*chars.length)) c.classList.add('visible'); });
         if(np>=1) document.getElementById('introTag').classList.add('show');
@@ -1492,6 +1492,17 @@ document.querySelectorAll('.project-card').forEach(card => {
       cancelAnimationFrame(traceRaf);
     }, 3500);
   }
+})();
+
+/* Email: open Gmail compose in a new tab on desktop (mailto: does nothing without a desktop mail app).
+   On phones the mailto: link is kept so the Gmail app opens. */
+(function(){
+  const link=document.getElementById('emailLink'); if(!link) return;
+  link.addEventListener('click',function(e){
+    if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    e.preventDefault();
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=sheikhshakil3510m@gmail.com','_blank','noopener');
+  });
 })();
 </script>
 </body>
