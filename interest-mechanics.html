@@ -42,6 +42,13 @@
     .reveal.visible{opacity:1;transform:none}
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     @media(max-width:768px){nav{padding:1rem 1.25rem}.page-hero,.content{padding-left:1.25rem;padding-right:1.25rem}footer{flex-direction:column;gap:.5rem;text-align:center}}
+    :root{--tint:rgba(232,103,63,.13)}
+    /* themed background + stickers */
+    body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 88% 8%,var(--tint) 0,transparent 42%),radial-gradient(circle at 4% 92%,var(--tint) 0,transparent 36%)}
+    .page-hero{position:relative}
+    .stickers{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .sticker{position:absolute;font-size:var(--s,4rem);line-height:1;transform:rotate(var(--r,0deg));filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 8px 12px rgba(0,0,0,.22))}
+    @media(max-width:768px){.sticker{opacity:.22;--s:3rem}}
   </style>
 </head>
 <body>
@@ -56,10 +63,16 @@
   </nav>
 
   <div class="page-hero">
+    <div class="stickers" aria-hidden="true">
+      <span class="sticker" style="top:24%;right:6%;--r:12deg;--s:5rem">⚙️</span>
+      <span class="sticker" style="top:54%;right:19%;--r:-10deg;--s:3.6rem">🔩</span>
+      <span class="sticker" style="top:70%;right:7%;--r:8deg;--s:4rem">🔋</span>
+      <span class="sticker" style="top:30%;right:26%;--r:-6deg;--s:3rem">🏍️</span>
+    </div>
     <a href="interests.html" class="back-link">← Back to Interests</a>
     <p class="page-label">Interest</p>
     <h1 class="page-title">Mechanics.</h1>
-    <p class="page-sub">Engines, wiring, and troubleshooting. I like understanding a machine well enough to fix it myself, and motorcycles are where I do most of that.</p>
+    <p class="page-sub">How machines turn energy into motion. I am drawn to the engineering behind engines, drivetrains, and vehicle electrical systems, where mechanical design meets electrical engineering.</p>
   </div>
 
   <hr class="divider"/>
@@ -68,33 +81,38 @@
 
     <div class="reveal" style="margin-bottom:1.5rem">
       <p class="section-label">Focus Areas</p>
-      <h2 class="section-title">What I Work On.</h2>
+      <h2 class="section-title">Where Mechanical Meets Electrical.</h2>
     </div>
     <div class="cards-grid">
       <div class="info-card reveal">
-        <div class="info-icon">🏍️</div>
-        <div class="info-title">Motorcycles</div>
-        <p class="info-desc">Old, simple bikes teach you a lot because everything is out in the open and nothing is hidden behind a computer.</p>
+        <div class="info-icon">⚙️</div>
+        <div class="info-title">Internal Combustion Engines</div>
+        <p class="info-desc">The thermodynamic cycle behind every engine: intake, compression, combustion, and exhaust. Efficiency, power output, and the limits that shape engine design.</p>
       </div>
       <div class="info-card reveal" style="transition-delay:.1s">
-        <div class="info-icon">🔧</div>
-        <div class="info-title">Maintenance & Repair</div>
-        <p class="info-desc">Oil, chains, brakes, plugs, and cables. Regular care is what separates a bike that runs from a bike that strands you.</p>
+        <div class="info-icon">🌀</div>
+        <div class="info-title">Fuel & Air Management</div>
+        <p class="info-desc">From carburetion to electronic fuel injection: how air-fuel ratio is controlled, and why precise mixture control drives performance, efficiency, and emissions.</p>
       </div>
       <div class="info-card reveal" style="transition-delay:.2s">
-        <div class="info-icon">⛽</div>
-        <div class="info-title">Carburetors & Fuel</div>
-        <p class="info-desc">What happens when a bike sits unused: stale fuel, clogged jets, and a carburetor that needs cleaning and tuning to breathe properly again.</p>
+        <div class="info-icon">🔋</div>
+        <div class="info-title">Vehicle Electrical Systems</div>
+        <p class="info-desc">Batteries, charging circuits, ignition, and wiring harnesses. The place where circuit theory from EEE meets a real vehicle.</p>
       </div>
       <div class="info-card reveal" style="transition-delay:.3s">
-        <div class="info-icon">🔋</div>
-        <div class="info-title">Battery & Electricals</div>
-        <p class="info-desc">Batteries, charging systems, and wiring. This is where my EEE studies meet the garage: voltage, current, and finding where a circuit breaks.</p>
+        <div class="info-icon">🔩</div>
+        <div class="info-title">Drivetrain & Transmission</div>
+        <p class="info-desc">Clutches, gearboxes, and final drive: how engine torque is converted into usable motion at the wheel.</p>
       </div>
       <div class="info-card reveal" style="transition-delay:.4s">
-        <div class="info-icon">🔍</div>
-        <div class="info-title">Troubleshooting</div>
-        <p class="info-desc">Start with the simplest explanation, test one thing at a time, and let the machine tell you what is wrong.</p>
+        <div class="info-icon">🧭</div>
+        <div class="info-title">Diagnostics & Reliability</div>
+        <p class="info-desc">A systematic approach to fault-finding: measure, isolate, verify. Preventive maintenance and reliability thinking applied to real machines.</p>
+      </div>
+      <div class="info-card reveal" style="transition-delay:.5s">
+        <div class="info-icon">⚡</div>
+        <div class="info-title">Electric Mobility</div>
+        <p class="info-desc">Motors, battery packs, and power electronics in electric vehicles: where vehicle engineering is heading, and a natural fit for an EEE background.</p>
       </div>
     </div>
 

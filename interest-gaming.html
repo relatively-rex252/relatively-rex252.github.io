@@ -43,6 +43,13 @@
     .reveal.visible{opacity:1;transform:none}
     @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
     @media(max-width:768px){nav{padding:1rem 1.25rem}.page-hero,.content{padding-left:1.25rem;padding-right:1.25rem}footer{flex-direction:column;gap:.5rem;text-align:center}}
+    :root{--tint:rgba(124,92,255,.13)}
+    /* themed background + stickers */
+    body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(circle at 88% 8%,var(--tint) 0,transparent 42%),radial-gradient(circle at 4% 92%,var(--tint) 0,transparent 36%)}
+    .page-hero{position:relative}
+    .stickers{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .sticker{position:absolute;font-size:var(--s,4rem);line-height:1;transform:rotate(var(--r,0deg));filter:drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff) drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff) drop-shadow(0 8px 12px rgba(0,0,0,.22))}
+    @media(max-width:768px){.sticker{opacity:.22;--s:3rem}}
   </style>
 </head>
 <body>
@@ -57,6 +64,12 @@
   </nav>
 
   <div class="page-hero">
+    <div class="stickers" aria-hidden="true">
+      <span class="sticker" style="top:24%;right:6%;--r:12deg;--s:5rem">🎮</span>
+      <span class="sticker" style="top:54%;right:19%;--r:-10deg;--s:3.6rem">🕹️</span>
+      <span class="sticker" style="top:70%;right:7%;--r:8deg;--s:4rem">👾</span>
+      <span class="sticker" style="top:30%;right:26%;--r:-6deg;--s:3rem">🎯</span>
+    </div>
     <a href="interests.html" class="back-link">← Back to Interests</a>
     <p class="page-label">Interest</p>
     <h1 class="page-title">Gaming.</h1>

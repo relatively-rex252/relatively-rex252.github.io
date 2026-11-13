@@ -253,6 +253,10 @@
     .skill-pips { display: flex; gap: 4px; }
     .skill-pips span { width: 22px; height: 4px; border-radius: 2px; background: var(--border); }
     .skill-pips span.on { background: var(--accent); }
+    .skill-pips span.part { background: linear-gradient(90deg, var(--accent) var(--fill), var(--border) var(--fill)); }
+    .skill-pips.grow span:nth-child(4), .skill-pips.grow span:nth-child(5) { animation: pipGrow 4s ease-in-out infinite; }
+    .skill-pips.grow span:nth-child(5) { animation-delay: 1.2s; }
+    @keyframes pipGrow { 0%, 100% { background: var(--border); } 50% { background: var(--accent); } }
 
     /* ─── PROJECTS ─── */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
@@ -381,6 +385,7 @@
       html { scroll-behavior: auto; }
       .reveal { opacity: 1; transform: none; transition: none; }
       .hero-orb { animation: none; }
+      .skill-pips.grow span { animation: none; }
     }
 
     /* ─── RESPONSIVE ─── */
@@ -524,7 +529,7 @@
         </div>
         <div class="skill-name">Circuit Analysis</div>
         <div class="skill-desc">AC/DC circuits, Kirchhoff's laws, mesh &amp; nodal analysis</div>
-        <div class="skill-level"><span class="skill-level-label">Comfortable</span><div class="skill-pips" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div></div>
+        <div class="skill-level"><span class="skill-level-label">Proficient</span><div class="skill-pips" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="part" style="--fill:80%"></span></div></div>
       </div>
 
       <!-- C Programming -->
@@ -592,7 +597,7 @@
         </div>
         <div class="skill-name">Problem Solving</div>
         <div class="skill-desc">Everyday learning something new to solve — always growing.</div>
-        <div class="skill-level"><span class="skill-level-label">Always growing</span><div class="skill-pips" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div></div>
+        <div class="skill-level"><span class="skill-level-label">Always growing</span><div class="skill-pips grow" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div></div>
       </div>
 
     </div>
@@ -669,7 +674,7 @@
       <a href="interest-mechanics.html" class="interest-card reveal" style="transition-delay:0.4s">
         <div class="interest-emoji">🏍️</div>
         <div class="interest-name">Mechanics</div>
-        <p class="interest-desc">Motorcycles, engines, and the satisfaction of getting an old machine running again with your own hands.</p>
+        <p class="interest-desc">Engines, drivetrains, and vehicle electrical systems: the engineering where mechanical design meets EEE.</p>
         <span class="interest-link">Explore →</span>
       </a>
     </div>
@@ -1038,7 +1043,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       /* Name */
       if(elapsed>PHASE_NAME){
         document.getElementById('introLabel').classList.add('show');
-        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.46';
+        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.47';
         const np=Math.min(1,(elapsed-PHASE_NAME)/1.2);
         chars.forEach((c,i)=>{ if(i<Math.floor(np*chars.length)) c.classList.add('visible'); });
         if(np>=1) document.getElementById('introTag').classList.add('show');
