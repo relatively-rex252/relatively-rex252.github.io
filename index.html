@@ -4,6 +4,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sheikh Zayed — Rex</title>
+  <meta name="description" content="Sheikh Zayed (Rex): EEE student at North South University, Dhaka. Portfolio of circuits, code and engineering projects, including the SPECTER voice assistant."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Sheikh Zayed — Rex"/>
+  <meta property="og:description" content="EEE student at North South University, Dhaka. Circuits, code and engineering projects."/>
+  <meta property="og:url" content="https://relatively-rex252.github.io/"/>
+  <meta name="twitter:card" content="summary"/>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -135,6 +141,13 @@
       transition: background 0.3s, border-color 0.3s;
     }
     [data-theme="dark"] nav { background: rgba(15,14,12,0.88); }
+    .burger { display: none; background: none; border: 1px solid var(--border); border-radius: 3px; color: var(--ink); font-size: 1.1rem; line-height: 1; padding: 0.35rem 0.6rem; cursor: pointer; }
+    .mobile-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: rgb(247,245,242); border-bottom: 1px solid var(--border); padding: 0.5rem 1.5rem 1rem; }
+    [data-theme="dark"] .mobile-menu { background: rgb(15,14,12); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { padding: 0.85rem 0.25rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-muted); text-decoration: none; border-bottom: 1px solid var(--border); }
+    .mobile-menu a:last-child { border-bottom: none; }
+    @media (max-width: 768px) { .burger { display: inline-flex; } }
     .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--ink); text-decoration: none; letter-spacing: 0.01em; }
     .nav-links { display: flex; gap: 1.75rem; list-style: none; align-items: center; }
     .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-muted); text-decoration: none; transition: color 0.2s; }
@@ -323,8 +336,8 @@
     .contact-inner { display: flex; flex-direction: column; align-items: flex-start; gap: 3rem; }
     .contact-heading { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; max-width: 600px; }
     .contact-heading em { font-style: italic; color: var(--accent); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; width: 100%; }
-    .social-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-grid { display: block; width: 100%; }
+    .social-links { display: flex; flex-direction: row; flex-wrap: wrap; gap: 0.75rem; }
     .social-link { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1.4rem; background: var(--card); border: 1px solid var(--border); border-radius: 3px; font-size: 0.85rem; font-weight: 500; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; transition: all 0.2s; }
     .social-link:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
     .social-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
@@ -465,7 +478,15 @@
         </div>
       </li>
       <li><button class="theme-btn" id="themeBtn">🌙 Dark</button></li>
+      <li><button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">☰</button></li>
     </ul>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="interests.html">Interests</a>
+      <a href="#contact">Contact</a>
+    </div>
   </nav>
 
   <!-- ══════════════ HERO ══════════════ -->
@@ -493,7 +514,7 @@
     <h2 class="section-title reveal">A bit about me.</h2>
     <div class="about-grid">
       <div class="about-text reveal">
-        <p>I'm <strong>Sheikh Zayed</strong> — most people call me Rex. I'm a Second-year EEE student at North South University, Dhaka, with a genuine passion for engineering, technology, and understanding the systems that power the world around us.</p>
+        <p>I'm <strong>Sheikh Zayed</strong> — most people call me Rex. I'm an EEE student at North South University, Dhaka, with a genuine passion for engineering, technology, and understanding the systems that power the world around us.</p>
         <p>I grew up in Jashore, Bangladesh, where I developed a curiosity for how things work — mechanical, electrical, and everything in between. These days I'm channeling that into my studies in circuits, programming, and beyond.</p>
         <p>Outside academics, I'm into aviation, mechanics, football, and gaming. Always building something, always learning.</p>
       </div>
@@ -596,7 +617,7 @@
           </svg>
         </div>
         <div class="skill-name">Problem Solving</div>
-        <div class="skill-desc">Everyday learning something new to solve — always growing.</div>
+        <div class="skill-desc">I learn whatever the problem needs, then solve it.</div>
         <div class="skill-level"><span class="skill-level-label">Always growing</span><div class="skill-pips grow" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div></div>
       </div>
 
@@ -1043,7 +1064,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       /* Name */
       if(elapsed>PHASE_NAME){
         document.getElementById('introLabel').classList.add('show');
-        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.49';
+        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.50';
         const np=Math.min(1,(elapsed-PHASE_NAME)/1.2);
         chars.forEach((c,i)=>{ if(i<Math.floor(np*chars.length)) c.classList.add('visible'); });
         if(np>=1) document.getElementById('introTag').classList.add('show');
@@ -1502,6 +1523,15 @@ document.querySelectorAll('.project-card').forEach(card => {
     link.href='https://mail.google.com/mail/?view=cm&fs=1&to=sheikhshakil3510m@gmail.com';
     link.target='_blank'; link.rel='noopener';
   }
+})();
+
+/* Mobile menu */
+(function(){
+  const burger=document.getElementById('burger'), menu=document.getElementById('mobileMenu');
+  if(!burger||!menu) return;
+  function setOpen(o){ menu.classList.toggle('open',o); burger.setAttribute('aria-expanded',o); burger.textContent=o?'✕':'☰'; }
+  burger.addEventListener('click',()=>setOpen(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
 })();
 </script>
 </body>
