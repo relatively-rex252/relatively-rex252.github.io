@@ -1043,7 +1043,7 @@ document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
       /* Name */
       if(elapsed>PHASE_NAME){
         document.getElementById('introLabel').classList.add('show');
-        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.48';
+        document.getElementById('introLabel').textContent='// BOOTING: SHEIKH ZAYED v1.26.49';
         const np=Math.min(1,(elapsed-PHASE_NAME)/1.2);
         chars.forEach((c,i)=>{ if(i<Math.floor(np*chars.length)) c.classList.add('visible'); });
         if(np>=1) document.getElementById('introTag').classList.add('show');
@@ -1494,15 +1494,14 @@ document.querySelectorAll('.project-card').forEach(card => {
   }
 })();
 
-/* Email: open Gmail compose in a new tab on desktop (mailto: does nothing without a desktop mail app).
+/* Email: on desktop the link points straight at Gmail compose (a normal link, so no popup blocker can stop it).
    On phones the mailto: link is kept so the Gmail app opens. */
 (function(){
   const link=document.getElementById('emailLink'); if(!link) return;
-  link.addEventListener('click',function(e){
-    if(!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    e.preventDefault();
-    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=sheikhshakil3510m@gmail.com','_blank','noopener');
-  });
+  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    link.href='https://mail.google.com/mail/?view=cm&fs=1&to=sheikhshakil3510m@gmail.com';
+    link.target='_blank'; link.rel='noopener';
+  }
 })();
 </script>
 </body>
